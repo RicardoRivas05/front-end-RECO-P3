@@ -1,3 +1,12 @@
-export const Report = () =>{
-    return (<h1>Report</h1>)
+import { ParametersReport, TableReport,GraphicReport,ResumeReport } from '../components'
+
+export const Report = () => {
+    return (
+        <>
+            <ParametersReport />
+            <GraphicReport/>
+            <ResumeReport/>
+            <TableReport />
+        </>
+    )
 }

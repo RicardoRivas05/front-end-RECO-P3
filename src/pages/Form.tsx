@@ -1,3 +1,10 @@
-export const Form = () =>{
-    return (<h1>Form</h1>)
+import { DataLoadForm, DataEditForm } from '../components'
+
+export const Form = () => {
+    return (
+        <>
+            <DataLoadForm />
+            <DataEditForm />
+        </>
+    )
 }
