@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router-dom';
-import { RouterPage } from './PageRouter';
+import { PageRouter } from './PageRouter';
 
-export const AppRouter = () => {
+export const App = () => {
   return (
         <Routes> 
-            <Route path="/*" element={ <RouterPage />} />
+            <Route path="/*" element={ <PageRouter />} />
         </Routes>
   )
 }

@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom';
-import { AppRouter } from './router/AppRouter';
+import { PageRouter } from './router/PageRouter';
 
-const App:FC = () =>(
+const App = () =>(
   <BrowserRouter>
-    <AppRouter />
+    <PageRouter />
   </BrowserRouter>
 )
 

@@ -1,10 +1,24 @@
-import { DataLoadForm, DataEditForm } from '../components'
+import { Card, Col, Row } from 'antd';
+import React from 'react';
 
-export const Form = () => {
-    return (
-        <>
-            <DataLoadForm />
-            <DataEditForm />
-        </>
-    )
-}
+export const Form: React.FC = () => (
+  <Row gutter={16}>
+    <Col span={8}>
+      <Card title="Card title" bordered={false}>
+        Card content
+      </Card>
+    </Col>
+    <Col span={8}>
+      <Card title="Card title" bordered={false}>
+        Card content
+      </Card>
+    </Col>
+    <Col span={8}>
+      <Card title="Card title" bordered={false}>
+        Card content
+      </Card>
+    </Col>
+  </Row>
+);
+
+export default Form;

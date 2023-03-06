@@ -16,3 +16,11 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
+  .contentStyle {
+    height: 160px;
+    color: #fff;
+    text-align: center;
+    filter: blur(5px);
+    border-radius: 15px 50px 30px 5px;
+  }
+

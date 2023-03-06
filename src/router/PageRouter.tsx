@@ -1,66 +1,51 @@
-import React, { FC, useState } from 'react';
-import { Link, Route, Routes } from "react-router-dom";
-import { Layout, Menu, theme } from 'antd';
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  EditOutlined,
-  LineChartOutlined
-} from '@ant-design/icons';
-import './PageRouter.css'
-import { Report, Form } from '../pages'
+import { Route, Routes, Link } from 'react-router-dom';
+import { Report } from '../pages/Report';
+import { Form } from '../pages/Form';
+import { Start } from '../pages/Start';
+import { Breadcrumb, Layout, Menu, theme } from 'antd';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Content } = Layout;
 
-export const RouterPage: FC = () => {
-
-  const [collapsed, setCollapsed] = useState(false);
+export const PageRouter: React.FC = () => {
   const {
     token: { colorBgContainer },
-  } = theme.useToken();
+  } = (theme ).useToken();
   return (
-    <Layout style={{ height: '100vh' }}>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+    <Layout className="layout">
+      <Header>
         <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-          items={[
-            {
-              key: '1',
-              icon: <LineChartOutlined />,
-              label: <Link to="/report" >Report </Link>,
-            },
-            {
-              key: '2',
-              icon: <EditOutlined />,
-              label: <Link to="/form">Form </Link>,
-            }
-          ]}
-        />
-      </Sider>
-      <Layout className="site-layout">
-        <Header style={{ padding: 10, background: colorBgContainer }}>
-          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: () => setCollapsed(!collapsed),
-          })}
-        </Header>
-        <Content
-          style={{
-            margin: '24px 16px',
-            padding: 24,
-            minHeight: 280,
-            background: colorBgContainer,
-          }}
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['Inicio']}>
+          <Menu.Item key="Start">
+            <Link to="/">Inicio</Link>
+          </Menu.Item>
+          <Menu.Item key="Report">
+            <Link to="/Report">Reporte</Link>
+          </Menu.Item>
+          <Menu.Item key="Form">
+            <Link to="/Form">Formulario</Link>
+          </Menu.Item>
+        </Menu>
+      </Header>
+      <Content style={{ paddingTop: '10px', paddingRight: '20px', paddingBottom: '30px', paddingLeft: '20px' }}>
+        <Breadcrumb style={{ margin: '16px 0' }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>App</Breadcrumb.Item>
+        </Breadcrumb>
+        <div
+          className="site-layout-content"
+          style={{ background: colorBgContainer }}
         >
           <Routes>
-            <Route path='/report' element={<Report />} />
-            <Route path='/form' element={<Form />} />
+            <Route path="*" element={<Start />} />
+            <Route path="/Inicio" element={<Start />} />
+            <Route path="/Report" element={<Report />} />
+            <Route path="/Form" element={<Form />} />
           </Routes>
-        </Content>
-      </Layout>
+        </div>
+      </Content>
     </Layout>
-  )
-}
+  );
+};
+
+export default PageRouter;
