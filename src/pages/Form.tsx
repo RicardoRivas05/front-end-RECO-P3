@@ -1,4 +1,5 @@
 import React from 'react';
+import GraphicReport from '../components/GraphicReport';
 import { Card, Col, Row, Button } from 'antd';
 import { DatePicker, Space } from 'antd';
 import type { DatePickerProps } from 'antd/es/date-picker';
@@ -31,26 +32,28 @@ const onSearch = (value: string) => {
 
 export const Form: React.FC = () => (
   <div>
+    <br/>
     <Row gutter={16}>
+    <Col span={1}></Col>
       <Col span={6}>
-        <Card title="Fecha Inicio" bordered={false}>
+        <Card title="Fecha Inicio" bordered={true}>
           <Space direction="vertical" size={12}>
             <DatePicker showTime onChange={onChangeFecha} onOk={onOk} />
           </Space>
         </Card>
       </Col>
       <Col span={6}>
-        <Card title="Fecha Final" bordered={false}>
+        <Card title="Fecha Final" bordered={true}>
           <Space direction="vertical" size={12}>
             <DatePicker showTime onChange={onChangeFecha} onOk={onOk} />
           </Space>
         </Card>
       </Col>
-      <Col span={6}>
-        <Card title="Variable" bordered={false}>
+      <Col span={5}>
+        <Card title="Variable" bordered={true}>
           <Select
             showSearch
-            placeholder="Select a person"
+            placeholder="Seleccionar una variable"
             optionFilterProp="children"
             onChange={onChangeV}
             onSearch={onSearch}
@@ -74,17 +77,19 @@ export const Form: React.FC = () => (
           />
         </Card>
       </Col>
-      <Col span={6}>
-        <Card title="Grafica" bordered={true} >
+      <Col span={5}>
+        <Card title="Grafica" bordered={true} style={{ }} >
           <Button type="primary" shape="round" icon={<FundTwoTone />} size="middle">
             Mostrar grafica
           </Button>
         </Card>
       </Col>
+      <Col span={1}></Col>
     </Row>
     <br/>
     <Row gutter={16}>
-      <Col span={24}>
+    <Col span={1}></Col>
+      <Col span={23}>
         <Space wrap>
           <br/>
           <Button type="primary"><PrinterOutlined /> Imprimir</Button>
@@ -92,6 +97,7 @@ export const Form: React.FC = () => (
         </Space>
       <br/>
       <Title style={{ textAlign: 'center', fontWeight: 'bold', color:'cornflowerblue' }}>Reporte</Title>
+      <GraphicReport></GraphicReport>
       </Col>
     </Row>
   </div>
