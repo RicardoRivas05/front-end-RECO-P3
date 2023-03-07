@@ -1,5 +1,6 @@
 import React from 'react';
 import GraphicReport from '../components/GraphicReport';
+import TableForm from '../components/TableForm';
 import { Card, Col, Row, Button } from 'antd';
 import { DatePicker, Space } from 'antd';
 import type { DatePickerProps } from 'antd/es/date-picker';
@@ -23,7 +24,7 @@ const onOk = (value: DatePickerProps['value']) => {
 
 //Variable
 const onChangeV = (value: string) => {
-  console.log(`selected ${value}`);
+  console.log(`Seleccionar fecha`);
 };
 
 const onSearch = (value: string) => {
@@ -36,21 +37,21 @@ export const Form: React.FC = () => (
     <Row gutter={16}>
     <Col span={1}></Col>
       <Col span={6}>
-        <Card title="Fecha Inicio" bordered={true}>
+        <Card title="Fecha Inicio" bordered={true} hoverable={true} style={{ border: '1px solid Gainsboro' }}>
           <Space direction="vertical" size={12}>
             <DatePicker showTime onChange={onChangeFecha} onOk={onOk} />
           </Space>
         </Card>
       </Col>
       <Col span={6}>
-        <Card title="Fecha Final" bordered={true}>
+        <Card title="Fecha Final" bordered={true} hoverable={true} style={{ border: '1px solid Gainsboro' }}>
           <Space direction="vertical" size={12}>
             <DatePicker showTime onChange={onChangeFecha} onOk={onOk} />
           </Space>
         </Card>
       </Col>
       <Col span={5}>
-        <Card title="Variable" bordered={true}>
+        <Card title="Variable" bordered={true} hoverable={true} style={{ border: '1px solid Gainsboro' }}>
           <Select
             showSearch
             placeholder="Seleccionar una variable"
@@ -78,7 +79,7 @@ export const Form: React.FC = () => (
         </Card>
       </Col>
       <Col span={5}>
-        <Card title="Grafica" bordered={true} style={{ }} >
+        <Card title="Grafica" bordered={true} hoverable={true} style={{ border: '1px solid Gainsboro' }}>
           <Button type="primary" shape="round" icon={<FundTwoTone />} size="middle">
             Mostrar grafica
           </Button>
@@ -98,6 +99,8 @@ export const Form: React.FC = () => (
       <br/>
       <Title style={{ textAlign: 'center', fontWeight: 'bold', color:'cornflowerblue' }}>Reporte</Title>
       <GraphicReport></GraphicReport>
+      <br/>
+      <TableForm></TableForm>
       </Col>
     </Row>
   </div>
