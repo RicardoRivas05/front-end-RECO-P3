@@ -63,16 +63,28 @@ export const Form: React.FC = () => (
             }
             options={[
               {
-                value: 'var_tipo_1',
-                label: 'var_tipo_1',
+                value: 'estacion 1',
+                label: 'Estacion 1',
               },
               {
-                value: 'var_tipo_2',
-                label: 'var_tipo_2',
+                value: 'estacion 2',
+                label: 'Estacion 2',
               },
               {
-                value: 'var_tipo_3',
-                label: 'var_tipo_3',
+                value: 'estacion 3',
+                label: 'Estacion 3',
+              },
+              {
+                value: 'estacion 4',
+                label: 'Estacion 4',
+              },
+              {
+                value: 'estacion 5',
+                label: 'Estacion 5',
+              },
+              {
+                value: 'estacion 6',
+                label: 'Estacion 6',
               },
             ]}
           />
@@ -90,19 +102,21 @@ export const Form: React.FC = () => (
     <br/>
     <Row gutter={16}>
     <Col span={1}></Col>
-      <Col span={23}>
+      <Col span={22}>
         <Space wrap>
           <br/>
-          <Button type="primary"><PrinterOutlined /> Imprimir</Button>
-          <Button type="primary"><DownloadOutlined /> Exportar</Button>
+          <Button type="primary" shape='round' style={{ backgroundColor: '#73d13d', borderColor: '#73d13d' }}><PrinterOutlined /> Imprimir</Button>
+          <Button type="primary" shape='round' style={{ backgroundColor: '#73d13d', borderColor: '#73d13d' }}><DownloadOutlined /> Exportar</Button>
         </Space>
       <br/>
-      <Title style={{ textAlign: 'center', fontWeight: 'bold', color:'cornflowerblue' }}>Reporte</Title>
+      <Title style={{ textAlign: 'center', fontWeight: 'bold', color:'cornflowerblue', fontFamily: 'Arial' }}>Reporte</Title>
       <GraphicReport></GraphicReport>
       <br/>
       <TableForm></TableForm>
       </Col>
+      <Col span={1}></Col>
     </Row>
+    
   </div>
 );
 
