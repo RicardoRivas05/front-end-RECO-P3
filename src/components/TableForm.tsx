@@ -1,106 +1,73 @@
-import React from 'react';
-import { Table, Divider } from 'antd';
-import { ColumnsType } from 'antd/es/table';
-import { Col, Row } from 'antd';
+import React, { useState } from 'react';
+import { Table, Button, Space  } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import { DeleteOutlined, EyeOutlined, EditOutlined } from '@ant-design/icons';
 
-interface Table1 {
+interface DataType {
   key: React.Key;
-  estacion1: string;
-  vMaximo: number;
-  fHora: string;
+  fecha: string;
+  estacion1: number;
+  estacion2: number;
 }
 
-interface Table2 {
-  key: React.Key;
-  estacion1: string;
-  vMinimo: number;
-  fHora: string;
-}
-
-const columns: ColumnsType<Table1> = [
+const columns: ColumnsType<DataType> = [
+  {
+    title: 'Fecha',
+    dataIndex: 'fecha',
+    width: 350,
+  },
   {
     title: 'Estacion 1',
     dataIndex: 'estacion1',
+    width: 300,
   },
   {
-    title: 'Valo maximo (mi/h)',
-    dataIndex: 'vMaximo',
-  },
-  {
-    title: 'Fecha/Hora',
-    dataIndex: 'fHora',
-  },
+    title: 'Estacion 2',
+    dataIndex: 'estacion2',
+  }, 
 ];
 
-const columns2: ColumnsType<Table2> = [
-  {
-    title: 'Estacion 1',
-    dataIndex: 'estacion1',
-  },
-  {
-    title: 'Valo minimo (mi/h)',
-    dataIndex: 'vMinimo',
-  },
-  {
-    title: 'Fecha/Hora',
-    dataIndex: 'fHora',
-  },
-];
-
-const data: Table1[] = [
-  {
-    key: '1',
-    estacion1: 'John Brown',
-    vMaximo: 32,
-    fHora: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    estacion1: 'Jim Green',
-    vMaximo: 42,
-    fHora: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    estacion1: 'Joe Black',
-    vMaximo: 32,
-    fHora: 'Sydney No. 1 Lake Park',
-  },
-];
-
-const data2: Table2[] = [
-  {
-    key: '1',
-    estacion1: 'John Brown',
-    vMinimo: 32,
-    fHora: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    estacion1: 'Jim Green',
-    vMinimo: 42,
-    fHora: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    estacion1: 'Joe Black',
-    vMinimo: 32,
-    fHora: 'Sydney No. 1 Lake Park',
-  },
-];
-export const TableForm: React.FC = () => (
-  <>
-    <Row>
-      <Col span={12}>
-        <Divider/>
-        <Table style={{ width: '90%', margin: 'auto' }} columns={columns} dataSource={data} size="middle" />
-      </Col>
-      <Col span={12}>
-      <Divider/>
-        <Table style={{ width: '90%', margin: 'auto' }} columns={columns2} dataSource={data2} size="middle" />
-      </Col>
-    </Row>
-  </>
-);
-
-export default TableForm;
+export const TableReport: React.FC = () => {
+    const [data, setData] = useState<DataType[]>([
+      {
+        key: '1',
+        fecha: 'John Brown',
+        estacion1: 32,
+        estacion2: 32,
+      },
+      {
+        key: '2',
+        fecha: 'Jim Green',
+        estacion1: 42,
+        estacion2: 32.2,
+      },
+      {
+        key: '3',
+        fecha: 'Joe Black',
+        estacion1: 32,
+        estacion2: 38.4,
+      },
+    ]);
+  
+    const handleDelete = (key: React.Key) => {
+      const newData = data.filter(item => item.key !== key);
+      setData(newData);
+    };
+  
+    return (
+      <>
+        <Table columns={[...columns, {
+          title: 'Action',
+          dataIndex: 'action',
+          width: 250,
+          render: (_text: string, record: DataType) =>
+          <Space wrap>
+            <Button type="primary" style={{ backgroundColor: '#73d13d', borderColor: '#73d13d' }}><EditOutlined /></Button>
+            <Button type="primary" danger onClick={() => handleDelete(record.key)} ><DeleteOutlined /></Button>
+            </Space>
+        }]} dataSource={data} size="small" style={{ margin:'auto', width:'90%' }}/>
+      </>
+    );
+  };
+  
+  export default TableReport;

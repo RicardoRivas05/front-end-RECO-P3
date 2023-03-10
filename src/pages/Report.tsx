@@ -1,48 +1,59 @@
-import { DownloadOutlined } from '@ant-design/icons';
-import { message, Upload } from 'antd';
-import { Divider } from 'antd';
-import { UploadFile } from 'antd/lib/upload/interface';
+import React from 'react';
+import GraphicReport from '../components/GraphicReport';
+import Parameters from '../components/ParametersReport';
 import TableReport from '../components/TableReport';
+import { Col, Row, Button } from 'antd';
+import { DatePicker, Space } from 'antd';
+import type { DatePickerProps } from 'antd/es/date-picker';
+import { PrinterOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Typography } from 'antd';
+import SecondTableReport from '../components/SecondTableReport';
 
-const { Dragger } = Upload;
+const { RangePicker } = DatePicker;
+const { Title } = Typography;
 
-const props = {
-  name: 'file.txt',
-  multiple: true,
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  onChange(info: { file: UploadFile; fileList: UploadFile[] }) {
-    const { status } = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-      
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-  onDrop(e: React.DragEvent<HTMLDivElement>) {
-    console.log('Dropped files', e.dataTransfer.files);
-  },
+const onChangeFecha = (
+  value: DatePickerProps['value'],
+  dateString: [string, string] | string,
+) => {
+  console.log('Selected Time: ', value)
 };
 
-export const Report = () => (
-  <div className="site-layout-content">
-    <br/>
-    <h1 style={{ textAlign: 'center', fontWeight: 'bold' }}>Ingreso de datos</h1>
+const onOk = (value: DatePickerProps['value']) => {
+  console.log('onOk: ', value);
+};
 
-    <Divider>Seleccione y carga el archivo en el siguiente espacio en formato .csv:</Divider>
-    <br />
-    <Dragger {...props} style={{ width: '50%', height: 170, margin: 'auto' }}>
-      <p className="ant-upload-drag-icon">
-        <DownloadOutlined />
-      </p>
-      <p className="ant-upload-text">Cargar el archivo .csv</p>
-    </Dragger>
-    <br />
-    <TableReport ></TableReport>
+//Variable
+const onChangeV = (value: string) => {
+  console.log(`Seleccionar fecha`);
+};
+
+const onSearch = (value: string) => {
+  console.log('search:', value);
+};
+
+export const Report: React.FC = () => (
+  <div>
     <br/>
+    <Parameters></Parameters>
+    <br/>
+    <Row gutter={16}>
+    <Col span={1}></Col>
+      <Col span={22}>
+        <Space wrap>
+          <br/>
+          <Button type="primary" shape='round' style={{ backgroundColor: '#73d13d', borderColor: '#73d13d' }}><PrinterOutlined /> Imprimir</Button>
+          <Button type="primary" shape='round' style={{ backgroundColor: '#73d13d', borderColor: '#73d13d' }}><DownloadOutlined /> Exportar</Button>
+        </Space>
+      <br/>
+      <Title style={{ textAlign: 'center', fontWeight: 'bold', color:'cornflowerblue', fontFamily: 'Arial' }}>Reporte</Title>
+      <GraphicReport></GraphicReport>
+      <br/>
+      <TableReport ></TableReport>
+      </Col>
+      <Col span={1}></Col>
+    </Row>
+    
   </div>
 );
 

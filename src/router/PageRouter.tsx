@@ -27,11 +27,6 @@ export const PageRouter: React.FC = () => {
         </Menu>
       </Header>
       <Content style={{ paddingTop: '10px', paddingRight: '20px', paddingBottom: '30px', paddingLeft: '20px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
         <div
           className="site-layout-content"
           style={{ background: colorBgContainer }}
