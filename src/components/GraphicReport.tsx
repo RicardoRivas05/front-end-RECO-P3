@@ -1,34 +1,24 @@
-import React from 'react';
+import React,{useState,useEffect} from 'react';
+import ReactDOM from 'react-dom';
 import { Line } from '@ant-design/charts';
 
-export const GraphicReport: React.FC = () => {
-  const data = [
-    { year: '1991', value: 3 },
-    { year: '1992', value: 4 },
-    { year: '1993', value: 3.5 },
-    { year: '1994', value: 5 },
-    { year: '1995', value: 4.9 },
-    { year: '1996', value: 6 },
-    { year: '1997', value: 7 },
-    { year: '1998', value: 9 },
-    { year: '1999', value: 13 },
-  ];
-
+export const GraphicReport: React.FC = (data:any) => {
   const config = {
-    data,
-    xField: 'year',
+    data: data.data,
+    xField: 'dateTime',
     yField: 'value',
-    point: {
-      size: 5,
-      shape: 'diamond',
+    seriesField: 'sourceId',
+    xAxis: {
+      type: 'time',
+    },
+    yAxis: {
+      label: {
+        formatter: (v:any) => `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
+      },
     },
   };
-  
-  return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <Line {...config} style={{ width: 700, height: 500 }} />
-    </div>
-  );
+
+  return <Line {...config} />;
 };
 
 export default GraphicReport;
