@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import { Line } from '@ant-design/charts';
+import ReactDOM from 'react-dom';
 
 export const GraphicReport: React.FC = (data:any) => {
   const config = {

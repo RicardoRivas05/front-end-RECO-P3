@@ -1,36 +1,38 @@
 import React from 'react';
-import { Image } from 'antd';
-import { Col, Row } from 'antd';
-import { SmallDashOutlined } from '@ant-design/icons';
-import { Typography } from 'antd';
+import { Button, Result, Image, Typography, Space } from 'antd';
+import { Link } from 'react-router-dom';
+import { EllipsisOutlined } from '@ant-design/icons';
 
 const { Title } = Typography;
 
 export const Start: React.FC = () => (
-  <>
-  <Row>
-    <Col span={8}>
-    <Image 
-    width={450} 
-    src="https://www.recoroatan.com/wp-content/uploads/2021/05/Reco-Esp_01.png" 
-    style={{ 
-      borderTopLeftRadius: '20%',
-      borderBottomRightRadius: '20%',
-      borderTopRightRadius: '20%',
-      borderBottomLeftRadius: '20%'
-    }} 
+  <Result
+  icon={<EllipsisOutlined style={{ color: 'white' }} />}
+    extra={[
+      <Image
+        key="image"
+        width={320}
+        src="https://www.recoroatan.com/wp-content/uploads/2021/05/Reco-Esp_01.png"
+        style={{
+          borderTopLeftRadius: '20%',
+          borderBottomRightRadius: '20%',
+          borderTopRightRadius: '20%',
+          borderBottomLeftRadius: '20%',
+        }}
+      />,
+      <div key="content">
+      <Title level={2} style={{ 
+          color: '#73d13d', 
+          fontWeight: 'bold', 
+          fontFamily: 'Mistral',
+          textTransform: 'uppercase',
+      }}>
+      Historización y Reporte de Variables de Velocidad del Viento
+      </Title>
+
+      </div>,
+    ]}
   />
-    </Col>
-    <Col span={14}>
-        <Title style={{ textAlign: 'center', fontWeight: 'bold', color:'cornflowerblue' }}>¡Bienvenidos!</Title>
-        <Title level={2} style={{ textAlign: 'center', fontWeight: 'bold', color:'cornflowerblue', fontFamily: 'Arial', fontStyle: 'italic' }}>Historización y Reporte de Variables de Velocidad del Viento</Title>
-    </Col>
-    <Col span={2}>
-
-    </Col>
-
-    </Row>
-  </>
 );
 
 export default Start;
