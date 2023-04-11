@@ -1,71 +1,96 @@
-import { DownloadOutlined } from '@ant-design/icons';
-import { message, Upload } from 'antd';
-import { Divider } from 'antd';
-import { UploadFile } from 'antd/lib/upload/interface';
-import TableReport from '../components/TableReport';
+import React, { useState, useEffect } from 'react';
+import Papa from 'papaparse';
+import { getQuantity, getSource, postDatos } from '../helpers';
+import dayjs from 'dayjs'
 
-const { Dragger } = Upload;
-const { Dragger } = Upload;
+interface CsvData {
+  Date: string;
+  "S1 WIND SPEED SCALED": number;
+  "S2 WIND SPEED SCALED": number;
+  "S3 WIND SPEED SCALED": number;
+  "S4 WIND SPEED SCALED": number;
+  "S5 WIND SPEED SCALED": number;
+  "S6 WIND SPEED SCALED": number;
+}
 
-const props = {
-  name: 'file.txt',
-  multiple: true,
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  onChange(info: { file: UploadFile; fileList: UploadFile[] }) {
-    const { status } = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-      
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-  onDrop(e: React.DragEvent<HTMLDivElement>) {
-    console.log('Dropped files', e.dataTransfer.files);
-  },
-const props = {
-  name: 'file.txt',
-  multiple: true,
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  onChange(info: { file: UploadFile; fileList: UploadFile[] }) {
-    const { status } = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-      
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-  onDrop(e: React.DragEvent<HTMLDivElement>) {
-    console.log('Dropped files', e.dataTransfer.files);
-  },
+export const Form = () => {
+  const [jsonData, setJsonData] = useState<CsvData[]>([]);
+  const [dataSource, setSource] = useState<any>();
+  const [dataQuantity, setQuantity] = useState<any>();
+
+  const handleCsvLoad = (csvData: CsvData[]) => setJsonData(csvData);
+  const handleCsvLoadError = (error: any) => console.error(error);
+
+  const handleCsvFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file)
+      parseCsv(file, handleCsvLoad, { error: handleCsvLoadError });
+  }
+
+  const HandleSource = async () => {
+    const getData = await getSource()
+    setSource(getData)
+  }
+
+  const HandleQuantity = async () => {
+    const getData = await getQuantity()
+    setQuantity(getData)
+  }
+
+  useEffect(() => {
+    HandleSource()
+    HandleQuantity()
+  }, []);
+
+  const parseCsv = (csvFile: File, callback: (jsonData: CsvData[]) => void, options = {}) =>
+    Papa.parse(csvFile, {
+      header: true,
+      dynamicTyping: true,
+      ...options,
+      complete: (results: any) => {
+        const jsonData = results.data as CsvData[];
+        jsonData.map(obj => {
+          const arr = Object.keys(obj).map((key) => ({ key, value: obj[key] }));
+          arr.map(item => {
+            if (item.key != 'Date')
+              postDatos(
+                {
+                  "dateTime":
+                    dayjs()
+                      .set('hour', Number(obj.Date.substring(0, 2)))
+                      .set('minute', Number(obj.Date.substring(3, 5)))
+                      .set('second', Number(obj.Date.substring(6, 8)))
+                      .set('ms', 0)
+                      .set('month', Number(obj.Date.substring(9, 11)) - 1)
+                      .set('date', Number(obj.Date.substring(12, 14)))
+                      .set('year', Number(obj.Date.substring(15, 19)))
+                      .toISOString(),
+                  "sourceId": dataSource.find((s: any) => s.name.match(/[0-9]+/g)[0] === item.key.match(/[0-9]+/g)[0]).id,
+                  "quantityId": dataQuantity[0].id,
+                  "value": item.value
+                }
+              )
+          }
+          )
+        }
+        )
+        callback(jsonData);
+      }
+    });
+
+  return (
+    <>
+      <h1>Ingreso de datos</h1>
+      <input type="file" onChange={handleCsvFileChange} />
+      <ul>
+        {jsonData.map((item, index) => (
+          <li key={index}>
+            {item.Date}, {item['S1 WIND SPEED SCALED']}, {item['S2 WIND SPEED SCALED']}, {item['S3 WIND SPEED SCALED']}
+          </li>
+        ))}
+      </ul>
+    </>
+  );
 };
-
-export const Form = () => (
-  <div className="site-layout-content">
-export const Form = () => (
-  <div className="site-layout-content">
-    <br/>
-    <h1 style={{ textAlign: 'center', fontWeight: 'bold' }}>Ingreso de datos</h1>
-
-    <Divider>Seleccione y carga el archivo en el siguiente espacio en formato .csv:</Divider>
-    <br />
-    <Dragger {...props} style={{ width: '50%', height: 170, margin: 'auto' }}>
-      <p className="ant-upload-drag-icon">
-        <DownloadOutlined />
-      </p>
-      <p className="ant-upload-text">Cargar el archivo .csv</p>
-    </Dragger>
-    <br />
-    <TableReport ></TableReport>
-    <br/>
-  </div>
-);
 
 export default Form;

@@ -1,4 +1,5 @@
-import {DatosControllerService} from '../services'
+import {DatosControllerService, NewDatos} from '../services'
+import { message } from "antd";
 
 export const getDatos = async (sourceId:string[],dateTime:string[]) =>{
     const data = await
@@ -23,3 +24,13 @@ export const getDatos = async (sourceId:string[],dateTime:string[]) =>{
             );
     return data;
 }
+
+export const postDatos = (item:NewDatos):void =>{
+    DatosControllerService.datosControllerCreate(item)
+    .then((newData) => {
+      message.success('Create success!')
+    })
+    .catch((error) => {
+      message.error('Create failed!');
+    });
+  }

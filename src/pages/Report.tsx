@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { GraphicReport, TableForm, ParametersReport } from '../components/index';
+import { GraphicReport, TableReport, ParametersReport } from '../components';
 import { Col, Row, Button, Space, Typography } from 'antd';
 import { PrinterOutlined, DownloadOutlined } from '@ant-design/icons';
 import { getDatos } from '../helpers';
@@ -30,7 +30,7 @@ export const Report: React.FC = () => {
         <Title style={{ textAlign: 'center', fontWeight: 'bold', color: 'cornflowerblue', fontFamily: 'Arial' }}>Reporte de Estaciones</Title>
         <GraphicReport data={data}></GraphicReport>
         <br />
-        <TableForm data={data}></TableForm>
+        <TableReport data={data}></TableReport>
         </div>
       </Col>
       <Col span={1}></Col>

@@ -72,4 +72,4 @@ export const ParametersReport: React.FC = ({HandleParameters}:any) => {
   )
 };
 
-export default Parameters;
+export default ParametersReport;
