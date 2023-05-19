@@ -4,14 +4,20 @@ import { ColumnsType } from 'antd/es/table';
 import { Col, Row } from 'antd';
 import dayjs from 'dayjs'
 
+
 interface Table1 {
-  id: React.Key;
-  sourceId: string;
-  dateTime: string;
-  value: number;
+  data: {
+      id: React.Key;
+      sourceId: string;
+      dateTime: string;
+      value: number[];
+      quantityId: string;
+  }[];
 }
 
+
 const columns: ColumnsType<Table1> = [
+
   {
     title: 'Fecha',
     dataIndex: 'dateTime',
@@ -20,7 +26,7 @@ const columns: ColumnsType<Table1> = [
     ),
   },
   {
-    title: 'Source',
+    title: 'sourceId',
     dataIndex: 'sourceId',
   },
   {
@@ -28,7 +34,7 @@ const columns: ColumnsType<Table1> = [
     dataIndex: 'value',
   },
 ];
-
+ 
 export const TableReport: React.FC = (data: any) => {
   return (
     <>

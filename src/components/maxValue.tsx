@@ -3,12 +3,12 @@ import React from 'react'
 interface TableProps{
     data: {sourceId: string; value: number}[];
 }
- const TableVMin: React.FC<TableProps> = ({data}) => {
+ const TableVMax: React.FC<TableProps> = ({data}) => {
   const getMaxValues = () => {
     const maxValues: {[key:string]: number} = {};
     data.forEach((item) => {
         const {sourceId, value} = item;
-        if(!maxValues[sourceId] || value < maxValues[sourceId]){
+        if(!maxValues[sourceId] || value > maxValues[sourceId]){
             maxValues[sourceId] = value;
         }
     });
@@ -37,4 +37,4 @@ interface TableProps{
   );
 };
 
-export default TableVMin;
+export default TableVMax;

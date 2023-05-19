@@ -3,6 +3,7 @@ import Papa from 'papaparse';
 import { getQuantity, getSource, postDatos } from '../helpers';
 import dayjs from 'dayjs'
 
+
 interface CsvData {
   Date: string;
   "S1 WIND SPEED SCALED": number;
@@ -80,15 +81,20 @@ export const Form = () => {
 
   return (
     <>
-      <h1>Ingreso de datos</h1>
-      <input type="file" onChange={handleCsvFileChange} />
-      <ul>
-        {jsonData.map((item, index) => (
-          <li key={index}>
-            {item.Date}, {item['S1 WIND SPEED SCALED']}, {item['S2 WIND SPEED SCALED']}, {item['S3 WIND SPEED SCALED']}
-          </li>
-        ))}
-      </ul>
+      <h1 style={{fontSize:"50px", textAlign:"center", fontWeight: 'bold', color: 'cornflowerblue', fontFamily: 'Arial'}}>Ingreso de datos</h1>
+      <h2 style={{textAlign: "center"}}>Selecciona y carga el archivo en formato .txt en el siguiente espacio: </h2>
+      <input style={{display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto", fontSize:'20px'}} type="file" onChange={handleCsvFileChange} />
+      <div style={{textAlign:'center'}}>
+        <ol className="list-group list-group-numbered" style={{fontSize:'20px', margin: '0 auto'}}>
+          
+          {jsonData.map((item, index) => (
+            <li key={index}>
+              {item.Date}, {item['S1 WIND SPEED SCALED']}, {item['S2 WIND SPEED SCALED']}, {item['S3 WIND SPEED SCALED']}, {item['S4 WIND SPEED SCALED']}, {item['S5 WIND SPEED SCALED']}, {item['S6 WIND SPEED SCALED']}                
+            </li>
+          ))}
+        </ol>
+      </div>
+      
     </>
   );
 };

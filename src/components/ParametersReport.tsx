@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Col, Row, DatePicker, Space, Select, Button } from 'antd';
 import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker';
 import { FundTwoTone } from '@ant-design/icons';
-import { getSource } from '../helpers';
+import {  getSource } from '../helpers';
 
 const { RangePicker } = DatePicker;
 
@@ -50,7 +50,7 @@ export const ParametersReport: React.FC = ({HandleParameters}:any) => {
                 mode="multiple"
                 allowClear
                 style={{ width: '90%' }}
-                placeholder="Seleccionar estaciones"
+                placeholder="Seleccionar estaciones "
                 onChange={setEstaciones}
                 options={dataSource}
               />

@@ -12,7 +12,7 @@ export const getDatos = async (sourceId:string[],dateTime:string[]) =>{
                                 "sourceId": {
                                     "inq": ${JSON.stringify(sourceId)}
                                 }
-                            },
+                            },                            
                             {
                                 "dateTime": {
                                     "between": ${JSON.stringify(dateTime)}
@@ -25,12 +25,14 @@ export const getDatos = async (sourceId:string[],dateTime:string[]) =>{
     return data;
 }
 
+
 export const postDatos = (item:NewDatos):void =>{
     DatosControllerService.datosControllerCreate(item)
-    .then((newData) => {
-      message.success('Create success!')
+    .then((newData) => {        
+        message.info('Cargando Datos, espere a que desaparezcan todos los mensajes de su pantalla')
     })
     .catch((error) => {
-      message.error('Create failed!');
+        message.loading('Loading data!')
+        //message.error('Create failed!');
     });
   }
