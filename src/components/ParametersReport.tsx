@@ -26,7 +26,6 @@ export const ParametersReport: React.FC = ({HandleParameters}:any) => {
     value: DatePickerProps['value'] | RangePickerProps['value'],
     dateString: [string, string],
   ) => {
-    console.log('Selected Time: ', value);
     setFechas(dateString)
   };
 

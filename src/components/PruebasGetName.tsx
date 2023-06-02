@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { getDatos } from '../helpers';
+import React, {useEffect, useState} from 'react';
+import {getDatos} from '../helpers';
 
 interface TableProps{
     data: {
-        sourceId: string;
+        sourceId: string,
         value: number;
-        dateTime: string
+        dateTime: string;
     }[];
 }
 
-
-
- const TableVMin: React.FC<TableProps> = ({data}) => {
+export const PruebasGetName: React.FC<TableProps> = ({data}) => {
     const [idNames, setIdNames] = useState<{[key:string]: string}>({});
 
     useEffect(() => {
@@ -28,52 +26,49 @@ interface TableProps{
         };
         setIdNames(idNamesResponse);
     },[]);
+    
 
-
-  const getMinValues = () => {
-    const minValues: {[key:string]: number} = {};
+    const getMaxValues = () => {
+    const maxValues: {[key:string]: number} = {};
     data.forEach((item) => {
         const {sourceId, value} = item;
-        if(!minValues[sourceId] || value < minValues[sourceId]){
-            minValues[sourceId] =  value;
+        if(!maxValues[sourceId] || value > maxValues[sourceId]){
+            maxValues[sourceId] = value;
         }
     });
-    return minValues 
+    return maxValues
   };
 
-  const getMinFech = () => {
-    const minValues: {[key:string]: number} = {};
+  const getMaxFech = () => {
+    const maxValues: {[key:string]: number} = {};
     const getFech: {[key:string]: string} = {};
     data.forEach((item) => {
         const {sourceId, value, dateTime} = item;
-        if(!minValues[sourceId] || value < minValues[sourceId]){
+        if(!maxValues[sourceId] || value > maxValues[sourceId]){
             getFech[sourceId] = dateTime
         }
     });
     return getFech;
   }
 
-  const minValues = getMinValues ();
-  const minFech = getMinFech();
+  const maxValues = getMaxValues ();
+  const getFech = getMaxFech();
 
   return(
-    
-    <table style={{borderCollapse:'collapse', marginBottom:'20px', marginLeft:'5px'}}>
+    <table style={{borderCollapse:'collapse', marginBottom:'20px', marginLeft:'2px'}}>
         <thead>
             <tr>
-                <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>ID</th>
-                <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Valor mas Bajo</th>
+                <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Nombre</th>
+                <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Valor mas Alto</th>
                 <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Fecha</th>
-                
             </tr>
         </thead>
         <tbody>
-            {Object.keys(minValues).map((sourceId)=> 
+            {Object.keys(maxValues).map((sourceId)=> 
                 <tr key={sourceId}>
                     <td style={{padding:'8px', textAlign:'left', borderBottom:'1px solid #ddd'}}>{idNames[sourceId]}</td>
-                    <td style={{padding:'8px', textAlign:'left', borderBottom:'1px solid #ddd'}}>{minValues[sourceId]}</td>
-                    <td style={{padding:'8px', textAlign:'left', borderBottom:'1px solid #ddd'}}>{minFech[sourceId]}</td>
-                    
+                    <td style={{padding:'8px', textAlign:'left', borderBottom:'1px solid #ddd'}}>{maxValues[sourceId]}</td>
+                    <td style={{padding:'8px', textAlign:'left', borderBottom:'1px solid #ddd'}}>{getFech[sourceId]}</td>
                 </tr>
             )}
         </tbody>
@@ -81,4 +76,5 @@ interface TableProps{
   );
 };
 
-export default TableVMin;
+export default PruebasGetName;
+

@@ -7,6 +7,8 @@ import { getDatos } from '../helpers';
 //import SecondTableReport from '../components/SecondTableReport';
 import TableVMax from '../components/maxValue';
 import TableVMin from '../components/SecondTableReport';
+import Promedio from '../components/Promedio';
+import { PruebasGetName } from '../components/PruebasGetName';
 
 
 
@@ -15,6 +17,8 @@ const { Title } = Typography;
 
 export const Report: React.FC = () => {
   const [data, setData] = useState<any>([]);
+  const [chartData, setChartData] = useState<number[]>([]);
+  const [chartLabels, setChartLabels] = useState<string[]>([]);
 
   useEffect(() => {
 
@@ -26,8 +30,6 @@ export const Report: React.FC = () => {
   }
  
 
-  
-  console.log(setData);
   return (
   <>
     <ParametersReport HandleParameters={HandleParameters}/>
@@ -43,15 +45,19 @@ export const Report: React.FC = () => {
         <br />
         <div className='print'>
         <Title style={{ textAlign: 'center', fontWeight: 'bold', color: 'cornflowerblue', fontFamily: 'Arial' }}>Reporte de Estaciones</Title>
-        <GraphicReport data={data}></GraphicReport>
+        <GraphicReport data={data}></GraphicReport>   
+        <br />       
         <br />
-        <br />
-        <div style={{display:'flex'}}>
+        <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
           <TableVMax data={data}></TableVMax>
           <TableVMin data={data}></TableVMin>
         </div>
+        <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+          <Promedio data={data}></Promedio>
+        </div>
+        <br />  
         <br />
-        <TableReport data={data}></TableReport>
+        <TableReport data={data} HandleParameters={HandleParameters}></TableReport>
         </div>
       </Col>
       <Col span={1}></Col>
