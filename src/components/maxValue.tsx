@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from 'react'
+import dayjs from 'dayjs';
+
 
 interface TableProps{
     data: {
@@ -26,7 +28,6 @@ interface TableProps{
     },[]);
 
 
-
   const getMaxValues = () => {
     const maxValues: {[key:string]: number} = {};
     data.forEach((item) => {
@@ -39,25 +40,25 @@ interface TableProps{
   };
 
   const getMaxFech = () => {
-    const maxValues: {[key:string]: number} = {};
-    const getFech: {[key:string]: string} = {};
+    const maxFech: {[key:string]: string} = {};
     data.forEach((item) => {
         const {sourceId, value, dateTime} = item;
-        if(!maxValues[sourceId] || value > maxValues[sourceId]){
-            getFech[sourceId] = dateTime
+        if(!maxFech[sourceId] || value > Number(maxFech[sourceId])){
+            const formattedDate = dayjs(dateTime).format('YYYY-MM-DD HH:mm:ss');
+            maxFech[sourceId] = formattedDate;
         }
-    });
-    return getFech;
+    }); 
+    return maxFech;
   }
 
   const maxValues = getMaxValues ();
-  const getFech = getMaxFech();
+  const maxFech = getMaxFech();
 
   return(
     <table style={{borderCollapse:'collapse', marginBottom:'20px', marginLeft:'2px'}}>
         <thead>
             <tr>
-                <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>ID</th>
+                <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Estación</th>
                 <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Valor mas Alto</th>
                 <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Fecha</th>
             </tr>
@@ -67,7 +68,7 @@ interface TableProps{
                 <tr key={sourceId}>
                     <td style={{padding:'8px', textAlign:'left', borderBottom:'1px solid #ddd'}}>{idNames[sourceId]}</td>
                     <td style={{padding:'8px', textAlign:'left', borderBottom:'1px solid #ddd'}}>{maxValues[sourceId]}</td>
-                    <td style={{padding:'8px', textAlign:'left', borderBottom:'1px solid #ddd'}}>{getFech[sourceId]}</td>
+                    <td style={{padding:'8px', textAlign:'left', borderBottom:'1px solid #ddd'}}>{maxFech[sourceId]}</td>
                 </tr>
             )}
         </tbody>

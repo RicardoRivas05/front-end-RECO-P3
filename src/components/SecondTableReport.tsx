@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { getDatos } from '../helpers';
+import dayjs from 'dayjs';
 
 interface TableProps{
     data: {
@@ -42,15 +43,15 @@ interface TableProps{
   };
 
   const getMinFech = () => {
-    const minValues: {[key:string]: number} = {};
-    const getFech: {[key:string]: string} = {};
+    const minFech: {[key:string]: string} = {};
     data.forEach((item) => {
         const {sourceId, value, dateTime} = item;
-        if(!minValues[sourceId] || value < minValues[sourceId]){
-            getFech[sourceId] = dateTime
+        if(!minFech[sourceId] || value < Number(minFech[sourceId])){
+            const formattedDate = dayjs(dateTime).format('YYYY-MM-DD HH:mm:ss');
+            minFech[sourceId] = formattedDate;
         }
     });
-    return getFech;
+    return minFech;
   }
 
   const minValues = getMinValues ();
@@ -61,7 +62,7 @@ interface TableProps{
     <table style={{borderCollapse:'collapse', marginBottom:'20px', marginLeft:'5px'}}>
         <thead>
             <tr>
-                <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>ID</th>
+                <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Estación</th>
                 <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Valor mas Bajo</th>
                 <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Fecha</th>
                 

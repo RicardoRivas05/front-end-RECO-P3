@@ -33,6 +33,5 @@ export const postDatos = (item:NewDatos):void =>{
     })
     .catch((error) => {
         message.loading('Loading data!')
-        //message.error('Create failed!');
     });
   }

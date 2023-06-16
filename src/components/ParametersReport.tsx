@@ -38,7 +38,7 @@ export const ParametersReport: React.FC = ({HandleParameters}:any) => {
             <Col span={10}>
             <Space direction="vertical" size={12}>
                 <RangePicker
-                  showTime={{ format: 'HH:mm' }}
+                  showTime={{ format: 'HH:mm:ss' }}
                   format="YYYY-MM-DD HH:mm"
                   onChange={onChange}
                 />
@@ -58,7 +58,7 @@ export const ParametersReport: React.FC = ({HandleParameters}:any) => {
               <Button type="primary" shape="round" icon={<FundTwoTone />} size="middle" 
               onClick={()=>{
                 HandleParameters(fechas,estaciones)
-              }}
+              }} 
               >
                 Generar Reporte
               </Button>

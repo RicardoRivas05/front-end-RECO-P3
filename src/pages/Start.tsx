@@ -7,7 +7,7 @@ const { Title } = Typography;
 
 export const Start: React.FC = () => (
   <Result
-  icon={<EllipsisOutlined style={{ color: '#73d13d' }} />}
+  icon={<EllipsisOutlined style={{ color: '#FFFFFF' }} />}
     extra={[
       <Image
         key="image"

@@ -40,7 +40,7 @@ const Promedio: React.FC<Props> = ({data}) => {
         <table style={{borderCollapse:'collapse', marginBottom:'20px', marginLeft:'5px'}}>
             <thead>
                 <tr>
-                    <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>ID</th>
+                    <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Estación</th>
                     <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Promedio</th>
                 </tr>
 
