@@ -9,6 +9,7 @@ import ExcelJS from 'exceljs';
 import Promedio from '../components/Promedio';
 import TableVMax from '../components/maxValue';
 import TableVMin from '../components/SecondTableReport';
+import ReactLoading from 'react-loading';
 
 const { Title } = Typography;
 
@@ -53,15 +54,20 @@ const transformDataForExport = (data: any[]) => {
 //----------------------------------------------
 
 export const Report: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<any>([]);
 
   const HandleParameters = async (fechas: string[], estacion: string[]) => {
     try {
+      setIsLoading(true);
+
       setData([]);
       const queryResult = await getDatos(estacion, fechas);
       setData(queryResult);
     } catch (error) {
       console.error('Error al obtener los datos: ', error);
+    }finally{
+      setIsLoading(false);
     }
   };
 
@@ -94,6 +100,13 @@ export const Report: React.FC = () => {
 
   return (
     <>
+    {isLoading ? (
+      <div style={{textAlign:'center', display:'flex', alignItems:'center', justifyContent:'center' ,fontWeight: 'bold', color: 'cornflowerblue', fontFamily: 'Arial', fontSize:'30px' }}>
+        <div style={{marginRight:'10px'}}>Generando Reporte...</div>
+        <ReactLoading type='spin' color='#0373FF' height={50} width={50}/>
+        </div>
+    ) : (
+      <>      
       <ParametersReport HandleParameters={HandleParameters} />
       <br />
       <Row gutter={16}>
@@ -139,6 +152,8 @@ export const Report: React.FC = () => {
         </Col>
         <Col span={1}></Col>
       </Row>
+      </>
+    )}
     </>
   );
 };

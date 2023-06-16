@@ -62,7 +62,7 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
       render: (_, { dateTime }) => <>{formatDate(dateTime)}</>,
     },
     {
-      title: 'Id',
+      title: 'Estación',
       dataIndex: 'sourceId',
       render: (sourceId) => idNames[sourceId] || sourceId,
     },
