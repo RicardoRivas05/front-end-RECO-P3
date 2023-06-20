@@ -6,7 +6,7 @@ import {  getSource } from '../helpers';
 
 const { RangePicker } = DatePicker;
 
-export const ParametersReport: React.FC = ({HandleParameters}:any) => {
+export const ParametersReport: React.FC = ({handleParameters}:any) => {
   const [dataSource, setSource] = useState<any>();
   const [fechas,setFechas] = useState<any>([]);
   const [estaciones,setEstaciones] = useState<any>('');
@@ -57,7 +57,7 @@ export const ParametersReport: React.FC = ({HandleParameters}:any) => {
             <Col span={3}>
               <Button type="primary" shape="round" icon={<FundTwoTone />} size="middle" 
               onClick={()=>{
-                HandleParameters(fechas,estaciones)
+                handleParameters(fechas,estaciones)
               }} 
               >
                 Generar Reporte
