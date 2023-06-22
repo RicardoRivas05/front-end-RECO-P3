@@ -29,6 +29,10 @@ export const ParametersReport: React.FC = ({handleParameters}:any) => {
     setFechas(dateString)
   };
 
+  const onOk =(value:DatePickerProps['value'] | RangePickerProps['value'])=>{
+    console.log('onOk: ', value);
+  };
+
   return (
     <Row>
       <Col span={1}></Col>
@@ -38,9 +42,10 @@ export const ParametersReport: React.FC = ({handleParameters}:any) => {
             <Col span={10}>
             <Space direction="vertical" size={12}>
                 <RangePicker
-                  showTime={{ format: 'HH:mm:ss' }}
-                  format="YYYY-MM-DD HH:mm"
+                  // showTime={{ format: 'HH:mm' }}
+                  format="YYYY-MM-DD"
                   onChange={onChange}
+                  onOk={onOk}
                 />
               </Space>
             </Col>

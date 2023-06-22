@@ -11,6 +11,7 @@ import TableVMax from '../components/maxValue';
 import TableVMin from '../components/SecondTableReport';
 import ReactLoading from 'react-loading';
 import LineChart from '../components/LineChart';
+import moment from 'moment';
 
 const { Title } = Typography;
 
@@ -47,15 +48,25 @@ export const Report: React.FC = () => {
     try {
       setIsLoading(true);
       setData([]);
-      setSelectedStations(estacion)
-      const queryResult = await getDatos(estacion, fechas);
-      setData(queryResult);
+      setSelectedStations(estacion);
+  
+      const startDateTime = moment(fechas[0]).startOf('day').format('YYYY-MM-DD HH:mm');
+      const endDateTime = moment(fechas[1]).endOf('day').format('YYYY-MM-DD HH:mm');
+  
+      // Realizar el filtrado de los datos dentro del rango de fechas seleccionado
+      const filteredData = await getDatos(estacion, [startDateTime, endDateTime]);
+  
+      // Ordenar los datos por fecha ascendente
+      const sortedData = filteredData.sort((a, b) => moment(a.dateTime).diff(moment(b.dateTime)));
+  
+      setData(sortedData);
     } catch (error) {
       console.error('Error al obtener los datos: ', error);
     } finally {
       setIsLoading(false);
     }
   };
+
 
   const exportToExcel = async (data: any[], sheetName: string) => {
     const transformedData = transformDataForExport(data);

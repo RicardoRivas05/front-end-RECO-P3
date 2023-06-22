@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Table, Spin } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Col, Row } from 'antd';
@@ -14,7 +14,6 @@ interface TableItem {
 interface TableProps {
   data: TableItem[];
 }
-
 export const TableReport: React.FC<TableProps> = ({ data }) => {
   const [idNames, setIdNames] = useState<{ [key: string]: string }>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -33,27 +32,35 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
   }, []);
 
   const formatDate = useMemo(() => {
-    return (dateTime: string) =>{
+    return (dateTime: string) => {
       const date = dayjs(dateTime);
       return date.format('YYYY-MM-DD HH:mm:ss');
-    }
+    };
   }, []);
 
+  // Filtrar los datos para eliminar duplicados
+  const filteredData = useMemo(() => {
+    const uniqueCombos = new Set<string>();
+    return data.filter((item) => {
+      const combo = `${item.sourceId}-${formatDate(item.dateTime)}`;
+      if (!uniqueCombos.has(combo)) {
+        uniqueCombos.add(combo);
+        return true;
+      }
+      return false;
+    });
+  }, [data]);
 
-  const filteredData: TableItem[] =[];
-  const uniqueCombos = new Set<string>();
+  // Ordenar los datos por fecha y hora de forma ascendente
+  const sortedData = useMemo(() => {
+    return filteredData.sort((a, b) => {
+      const dateA = new Date(a.dateTime).getTime();
+      const dateB = new Date(b.dateTime).getTime();
+      return dateA - dateB;
+    });
+  }, [filteredData]);
 
-  for(const item of data){
-    const combo = `${item.sourceId}-${formatDate(item.dateTime)}`;
-    if(!uniqueCombos.has(combo)){
-      filteredData.push(item);
-      uniqueCombos.add(combo);
-    }
-  }
-
-
-
-  const paginatedData = filteredData.slice((currentPage-1) * pageSize, currentPage * pageSize);
+  const paginatedData = sortedData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   const columns: ColumnsType<TableItem> = [
     {
@@ -83,7 +90,7 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
             pagination={{
               current: currentPage,
               pageSize: pageSize,
-              total: filteredData.length,
+              total: sortedData.length,
               onChange: (page) => setCurrentPage(page),
             }}
             size="middle"
@@ -95,9 +102,8 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
   );
 };
 
-
-
-// import React, { useEffect, useState, useMemo, useCallback } from 'react';
+//*********************************************** */
+// import React, { useEffect, useState, useMemo } from 'react';
 // import { Table, Spin } from 'antd';
 // import { ColumnsType } from 'antd/es/table';
 // import { Col, Row } from 'antd';
@@ -132,33 +138,22 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
 //   }, []);
 
 //   const formatDate = useMemo(() => {
-//     return (dateTime: string) =>{
+//     return (dateTime: string) => {
 //       const date = dayjs(dateTime);
 //       return date.format('YYYY-MM-DD HH:mm:ss');
-//     }
+//     };
 //   }, []);
 
-
-//   const filteredData = useMemo(() => {
-//     const filtered = data.reduce((accumulator: TableItem[], item: TableItem) => {
-//       const existingItem = accumulator.find(
-//         (accItem) =>
-//           accItem.sourceId === item.sourceId && formatDate(accItem.dateTime) === formatDate(item.dateTime)
-//       );
-//       if (!existingItem) {
-//         accumulator.push(item);
-//       }
-//       return accumulator;
-//     }, []);
-
-//     return filtered;
+//   // Ordenar los datos por fecha y hora de forma ascendente
+//   const sortedData = useMemo(() => {
+//     return data.sort((a, b) => {
+//       const dateA = new Date(a.dateTime).getTime();
+//       const dateB = new Date(b.dateTime).getTime();
+//       return dateA - dateB;
+//     });
 //   }, [data]);
 
-//   const paginatedData= useMemo(()=>{
-//     const startIndex = (currentPage - 1) * pageSize;
-//     const endIndex = startIndex + pageSize;
-//     return filteredData.slice(startIndex, endIndex);
-//   }, [currentPage, pageSize, filteredData])
+//   const paginatedData = sortedData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
 //   const columns: ColumnsType<TableItem> = [
 //     {
@@ -167,7 +162,7 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
 //       render: (_, { dateTime }) => <>{formatDate(dateTime)}</>,
 //     },
 //     {
-//       title: 'Id',
+//       title: 'Estación',
 //       dataIndex: 'sourceId',
 //       render: (sourceId) => idNames[sourceId] || sourceId,
 //     },
@@ -188,7 +183,7 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
 //             pagination={{
 //               current: currentPage,
 //               pageSize: pageSize,
-//               total: filteredData.length,
+//               total: sortedData.length,
 //               onChange: (page) => setCurrentPage(page),
 //             }}
 //             size="middle"
