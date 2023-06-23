@@ -111,13 +111,13 @@ export const Report: React.FC = () => {
             <Col span={22}>
               <Space wrap>
                 <br />
-                <Button
+                {/* <Button
                   type="primary"
                   shape="round"
                   style={{ backgroundColor: '#73d13d', borderColor: '#73d13d' }}
                 >
                   <PrinterOutlined /> Imprimir
-                </Button>
+                </Button> */}
                 <Button
                   type="primary"
                   shape="round"
