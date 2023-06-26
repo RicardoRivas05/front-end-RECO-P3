@@ -41,7 +41,7 @@ const Promedio: React.FC<Props> = ({data}) => {
             <thead>
                 <tr>
                     <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Estación</th>
-                    <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Promedio</th>
+                    <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Promedio (mi/h)</th>
                 </tr>
 
             </thead>
