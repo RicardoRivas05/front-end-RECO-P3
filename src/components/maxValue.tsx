@@ -7,9 +7,10 @@ interface TableProps {
     value: number;
     dateTime: string;
   }[];
+  selectedStations: string[];
 }
 
-const TableVMax: React.FC<TableProps> = ({ data }) => {
+const TableVMax: React.FC<TableProps> = ({ data, selectedStations }) => {
   const [idNames, setIdNames] = useState<{ [key: string]: string }>({});
   const [maxFech, setMaxFech] = useState<{ [key: string]: Date }>({});
 
@@ -43,11 +44,10 @@ const TableVMax: React.FC<TableProps> = ({ data }) => {
 
   const getMaxValues = () => {
     const maxValues: { [key: string]: number } = {};
-    data.forEach((item) => {
-      const { sourceId, value } = item;
-      if (!maxValues[sourceId] || value > maxValues[sourceId]) {
-        maxValues[sourceId] = value;
-      }
+    selectedStations.forEach((stationId) => {
+      const stationData = data.filter((item) => item.sourceId === stationId);
+      const stationMax = Math.max(...stationData.map((item) => item.value));
+      maxValues[stationId] = stationMax;
     });
     return maxValues;
   };
@@ -64,13 +64,13 @@ const TableVMax: React.FC<TableProps> = ({ data }) => {
         </tr>
       </thead>
       <tbody>
-        {Object.keys(maxValues).map((sourceId) =>
+        {selectedStations.map((sourceId) => (
           <tr key={sourceId}>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{idNames[sourceId]}</td>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{maxValues[sourceId]}</td>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{maxFech[sourceId]?.toLocaleString()}</td>
           </tr>
-        )}
+        ))}
       </tbody>
     </table>
   );

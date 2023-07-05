@@ -1,5 +1,6 @@
 import {DatosControllerService, NewDatos} from '../services'
 import { message } from "antd";
+import { DatosTabla } from '../components/Consulta';
 
 export const getDatos = async (sourceId:string[],dateTime:string[]) =>{
     const data = await
@@ -24,6 +25,42 @@ export const getDatos = async (sourceId:string[],dateTime:string[]) =>{
             );
     return data;
 }
+
+export const getMaxValueByStation = async (stationIds: string[]): Promise<DatosTabla[]> => {
+    try {
+      const promises = stationIds.map(async (stationId) => {
+        const data = await DatosControllerService.datosControllerFind({
+          where: {
+            sourceId: stationId
+          },
+          order: 'value DESC',
+          limit: 1
+        });
+  
+        if (data.length > 0) {
+          const maxValue = data[0].value;
+          const stationId = data[0].sourceId;
+          const date = data[0].dateTime;
+  
+          return {
+            maxValue: maxValue,
+            stationId: stationId,
+            date: date
+          };
+        }
+  
+        return null; // No se encontraron registros para la estación seleccionada
+      });
+  
+      const results = await Promise.all(promises);
+  
+      return results.filter((result) => result !== null) as DatosTabla[];
+    } catch (error) {
+      console.error('Error al obtener los valores máximos: ', error);
+      return [];
+    }
+  };
+  
 
 
 export const postDatos = async(data:any[]) =>{
@@ -50,7 +87,7 @@ export const postDatos = async(data:any[]) =>{
         message.success({content: 'Data loaded!', key:'loading'});
     } catch (error) {
         console.error('Error al insertar los datos: ', error);
-        message.error({content: 'Errir loading data!', key:'loading'})      
+        message.error({content: 'Error loading data!', key:'loading'})      
     }
 };
 

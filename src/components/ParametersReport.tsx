@@ -12,13 +12,17 @@ export const ParametersReport: React.FC = ({ handleParameters }: any) => {
   const [fechaFin, setFechaFin] = useState<moment.Moment | null>(null);
   const [estaciones, setEstaciones] = useState<any>('');
 
+
+  
   const HandleSource = async () => {
     const getData = await getSource();
     const list = getData.map((item) => {
       return { label: item.name, value: item.id };
     });
     setSource(list);
+    
   };
+
 
   useEffect(() => {
     HandleSource();
