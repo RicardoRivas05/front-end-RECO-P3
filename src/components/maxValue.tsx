@@ -12,7 +12,7 @@ interface TableProps {
 
 const TableVMax: React.FC<TableProps> = ({ data, selectedStations }) => {
   const [idNames, setIdNames] = useState<{ [key: string]: string }>({});
-  const [maxFech, setMaxFech] = useState<{ [key: string]: Date }>({});
+  const [maxFech, setMaxFech] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const idNamesResponse: { [key: string]: string } = {
@@ -26,21 +26,20 @@ const TableVMax: React.FC<TableProps> = ({ data, selectedStations }) => {
     setIdNames(idNamesResponse);
 
     const getMinMaxFech = () => {
-      const maxFech: { [key: string]: Date } = {};
-      data.forEach((item) => {
-        const { sourceId, value, dateTime } = item;
-        const dateObj = new Date(dateTime);
-
-        if (!maxFech[sourceId] || value > maxFech[sourceId].valueOf()) {
-          maxFech[sourceId] = dateObj;
+      const maxFech: { [key: string]: string } = {};
+      selectedStations.forEach((stationId) => {
+        const stationData = data.filter((item) => item.sourceId === stationId);
+        const sortedData = stationData.sort((a, b) => b.value - a.value);
+        if (sortedData.length > 0) {
+          maxFech[stationId] = sortedData[0].dateTime;
         }
       });
-      return { maxFech };
+      return maxFech;
     };
 
-    const { maxFech } = getMinMaxFech();
+    const maxFech = getMinMaxFech();
     setMaxFech(maxFech);
-  }, [data]);
+  }, [data, selectedStations]);
 
   const getMaxValues = () => {
     const maxValues: { [key: string]: number } = {};
@@ -53,6 +52,11 @@ const TableVMax: React.FC<TableProps> = ({ data, selectedStations }) => {
   };
 
   const maxValues = getMaxValues();
+  
+  const formatDate = (dateTime: string) => {
+    return dayjs(dateTime).format('YYYY-MM-DD HH:mm');
+  };
+
 
   return (
     <table style={{ borderCollapse: 'collapse', marginBottom: '20px', marginLeft: '5px' }}>
@@ -68,7 +72,7 @@ const TableVMax: React.FC<TableProps> = ({ data, selectedStations }) => {
           <tr key={sourceId}>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{idNames[sourceId]}</td>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{maxValues[sourceId]}</td>
-            <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{maxFech[sourceId]?.toLocaleString()}</td>
+            <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{formatDate(maxFech[sourceId])}</td>
           </tr>
         ))}
       </tbody>

@@ -14,6 +14,7 @@ const TableVMin: React.FC<TableProps> = ({ data }) => {
   const [minFech, setMinFech] = useState<{ [key: string]: Date }>({});
 
   useEffect(() => {
+    console.log
     const idNamesResponse: { [key: string]: string } = {
       "645e79a1ac39284b585fb464": "S1 WIND SPEED SCALED",
       "645e79a6ac39284b585fb465": "S2 WIND SPEED SCALED",
@@ -26,16 +27,19 @@ const TableVMin: React.FC<TableProps> = ({ data }) => {
 
     const getMinMaxFech = () => {
       const minFech: { [key: string]: Date } = {};
+    
       data.forEach((item) => {
         const { sourceId, value, dateTime } = item;
         const dateObj = new Date(dateTime);
-
+    
         if (!minFech[sourceId] || value < minFech[sourceId].valueOf()) {
           minFech[sourceId] = dateObj;
         }
       });
+    
       return { minFech };
     };
+    
 
     const { minFech } = getMinMaxFech();
     setMinFech(minFech);
@@ -54,6 +58,11 @@ const TableVMin: React.FC<TableProps> = ({ data }) => {
 
   const minValues = getMinValues();
 
+  const formatDate = (dateTime: Date) => {
+    const formattedDate = dayjs(dateTime).format('YYYY-MM-DD HH:mm');
+    return formattedDate;
+  };
+
   return (
     <table style={{ borderCollapse: 'collapse', marginBottom: '20px', marginLeft: '5px' }}>
       <thead>
@@ -68,7 +77,7 @@ const TableVMin: React.FC<TableProps> = ({ data }) => {
           <tr key={sourceId}>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{idNames[sourceId]}</td>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{minValues[sourceId]}</td>
-            <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{minFech[sourceId]?.toLocaleString()}</td>
+            <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{formatDate(minFech[sourceId])}</td>
           </tr>
         )}
       </tbody>

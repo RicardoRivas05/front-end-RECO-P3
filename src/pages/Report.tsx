@@ -78,44 +78,6 @@ export const Report: React.FC = () => {
 };
 
 
-
-  // const handleParameters = async (fechas: string[], estacion: string[]) => {
-  //   try {
-  //     setIsLoading(true);
-  //     setData([]);
-  //     setSelectedStations(estacion);
-  
-  //     const startDateTime = moment(fechas[0]).startOf('day').format('YYYY-MM-DD HH:mm');
-  //     const endDateTime = moment(fechas[1]).endOf('day').format('YYYY-MM-DD HH:mm');
-  
-  //     // Realizar el filtrado de los datos dentro del rango de fechas seleccionado
-  //     const filteredData = await getDatos(estacion, [startDateTime, endDateTime]);
-  
-  //     // Ordenar los datos por fecha ascendente
-  //     const sortedData = filteredData.sort((a, b) => moment(a.dateTime).diff(moment(b.dateTime)));
-  
-  //     setData(sortedData);
-
-  //     //Aqui se obtiene el valor maximo para la estacion seleccionada
-  //     const maxValueData = await getMaxValueByStation(estacion[0]);
-
-  //     if(maxValueData){
-  //       const maxValue = maxValueData.maxValue;
-  //       const stationId = maxValueData.stationId;
-  //       const date = maxValueData.date;
-
-  //       console.log('Valor Maximo:', maxValue);
-  //       console.log('Id de la estacion', stationId);
-  //       console.log('Fecha', date);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error al obtener los datos: ', error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-
   const exportToExcel = async (data: any[], sheetName: string) => {
     const transformedData = transformDataForExport(data);
 
@@ -183,6 +145,7 @@ export const Report: React.FC = () => {
                   <TableVMax data={data} selectedStations={selectedStations}/>
                   <TableVMin data={data} />
                 </div>
+                <br />
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <Promedio data={data} />                  
                   <Consulta datos={consultaData}/>
