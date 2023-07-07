@@ -7,14 +7,14 @@ interface TableProps {
     value: number;
     dateTime: string;
   }[];
+  selectedStations: string[];
 }
 
-const TableVMin: React.FC<TableProps> = ({ data }) => {
+const TableVMin: React.FC<TableProps> = ({ data, selectedStations }) => {
   const [idNames, setIdNames] = useState<{ [key: string]: string }>({});
-  const [minFech, setMinFech] = useState<{ [key: string]: Date }>({});
+  const [minFech, setMinFech] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    console.log
     const idNamesResponse: { [key: string]: string } = {
       "645e79a1ac39284b585fb464": "S1 WIND SPEED SCALED",
       "645e79a6ac39284b585fb465": "S2 WIND SPEED SCALED",
@@ -26,41 +26,35 @@ const TableVMin: React.FC<TableProps> = ({ data }) => {
     setIdNames(idNamesResponse);
 
     const getMinMaxFech = () => {
-      const minFech: { [key: string]: Date } = {};
-    
-      data.forEach((item) => {
-        const { sourceId, value, dateTime } = item;
-        const dateObj = new Date(dateTime);
-    
-        if (!minFech[sourceId] || value < minFech[sourceId].valueOf()) {
-          minFech[sourceId] = dateObj;
+      const minFech: { [key: string]: string } = {};
+      selectedStations.forEach((stationId) => {
+        const stationData = data.filter((item) => item.sourceId === stationId);
+        const sortedData = stationData.sort((a, b) => a.value - b.value); // Orden ascendente para obtener el valor más bajo
+        if (sortedData.length > 0) {
+          minFech[stationId] = sortedData[0].dateTime;
         }
       });
-    
-      return { minFech };
+      return minFech;
     };
-    
 
-    const { minFech } = getMinMaxFech();
+    const minFech = getMinMaxFech();
     setMinFech(minFech);
-  }, [data]);
+  }, [data, selectedStations]);
 
   const getMinValues = () => {
     const minValues: { [key: string]: number } = {};
-    data.forEach((item) => {
-      const { sourceId, value } = item;
-      if (!minValues[sourceId] || value <= minValues[sourceId]) {
-        minValues[sourceId] = value;
-      }
+    selectedStations.forEach((stationId) => {
+      const stationData = data.filter((item) => item.sourceId === stationId);
+      const stationMin = Math.min(...stationData.map((item) => item.value)); // Usar Math.min en lugar de Math.max
+      minValues[stationId] = stationMin;
     });
     return minValues;
   };
 
   const minValues = getMinValues();
 
-  const formatDate = (dateTime: Date) => {
-    const formattedDate = dayjs(dateTime).format('YYYY-MM-DD HH:mm');
-    return formattedDate;
+  const formatDate = (dateTime: string) => {
+    return dayjs(dateTime).format('YYYY-MM-DD HH:mm');
   };
 
   return (
@@ -73,13 +67,13 @@ const TableVMin: React.FC<TableProps> = ({ data }) => {
         </tr>
       </thead>
       <tbody>
-        {Object.keys(minValues).map((sourceId) =>
+        {Object.keys(minValues).map((sourceId) => (
           <tr key={sourceId}>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{idNames[sourceId]}</td>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{minValues[sourceId]}</td>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{formatDate(minFech[sourceId])}</td>
           </tr>
-        )}
+        ))}
       </tbody>
     </table>
   );

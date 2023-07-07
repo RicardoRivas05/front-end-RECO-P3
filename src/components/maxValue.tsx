@@ -24,7 +24,7 @@ const TableVMax: React.FC<TableProps> = ({ data, selectedStations }) => {
       "645e9a98ac39284b585fb46c": "S6 WIND SPEED SCALED",
     };
     setIdNames(idNamesResponse);
-
+//*** */
     const getMinMaxFech = () => {
       const maxFech: { [key: string]: string } = {};
       selectedStations.forEach((stationId) => {
@@ -50,7 +50,7 @@ const TableVMax: React.FC<TableProps> = ({ data, selectedStations }) => {
     });
     return maxValues;
   };
-
+  //**** */
   const maxValues = getMaxValues();
   
   const formatDate = (dateTime: string) => {

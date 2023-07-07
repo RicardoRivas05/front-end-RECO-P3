@@ -143,7 +143,7 @@ export const Report: React.FC = () => {
                 <br />
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                   <TableVMax data={data} selectedStations={selectedStations}/>
-                  <TableVMin data={data} />
+                  <TableVMin data={data} selectedStations={selectedStations} />
                 </div>
                 <br />
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

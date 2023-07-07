@@ -54,7 +54,7 @@ const LineChart: React.FC<Props> = ({ data, selectedStations }) => {
       fill: false,
       borderColor: getRandomColor(),
       backgroundColor: getRandomColor(),
-      pointRadius: 1,
+      pointRadius: 0,
       pointBorderColor: getRandomColor(),
       pointBackgroundColor: getRandomColor(),
     };
