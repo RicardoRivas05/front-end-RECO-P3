@@ -1,0 +1,39 @@
+yarn run v1.22.19
+$ tsc && vite build
+src/components/ConsultaValorBajo.tsx(41,72): error TS2339: Property 'minValue' does not exist on type 'DatosTabla2'.
+src/components/datosHistoricos.tsx(1,1): error TS1208: 'datosHistoricos.tsx' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.
+src/components/GraphicReport.tsx(66,11): error TS2322: Type '{ data: DataItem[]; xField: string; yField: string; seriesField: string; xAxis: { type: string; }; yAxis: { label: { formatter: (v: any) => string; }; }; tooltip: { formatter: (datum: any) => { name: any; value: any; title: any; }; }; annotations: { ...; }[]; }' is not assignable to type 'LineConfig'.
+  Types of property 'annotations' are incompatible.
+    Type '{ type: string; position: number[]; style: { stroke: string; lineWidth: number; }; text: { content: string; offsetY: number; }; }[]' is not assignable to type 'Annotation[]'.
+      Type '{ type: string; position: number[]; style: { stroke: string; lineWidth: number; }; text: { content: string; offsetY: number; }; }' is not assignable to type 'Annotation'.
+        Type '{ type: string; position: number[]; style: { stroke: string; lineWidth: number; }; text: { content: string; offsetY: number; }; }' is not assignable to type '{ id?: string | undefined; } & DataRegionOption'.
+          Type '{ type: string; position: number[]; style: { stroke: string; lineWidth: number; }; text: { content: string; offsetY: number; }; }' is missing the following properties from type 'DataRegionOption': start, end
+src/components/LineChart.tsx(85,33): error TS2322: Type '{ scales: { x: { type: string; time: { tooltipFormat: string; unit: string; displayFormats: { day: string; }; min: string; max: string; }; }; }; }' is not assignable to type '_DeepPartialObject<CoreChartOptions<"line"> & ElementChartOptions<"line"> & PluginChartOptions<"line"> & DatasetChartOptions<"line"> & ScaleChartOptions<...> & LineControllerChartOptions>'.
+  Types of property 'scales' are incompatible.
+    Type '{ x: { type: string; time: { tooltipFormat: string; unit: string; displayFormats: { day: string; }; min: string; max: string; }; }; }' is not assignable to type '_DeepPartialObject<{ [key: string]: ScaleOptionsByType<keyof CartesianScaleTypeRegistry>; }>'.
+      Property 'x' is incompatible with index signature.
+        Type '{ type: string; time: { tooltipFormat: string; unit: string; displayFormats: { day: string; }; min: string; max: string; }; }' is not assignable to type '_DeepPartialObject<{ type: "time"; } & Omit<CartesianScaleOptions, "min" | "max"> & { min: string | number; max: string | number; suggestedMin: string | number; ... 5 more ...; ticks: { ...; }; }> | ... 4 more ... | undefined'.
+          Type '{ type: string; time: { tooltipFormat: string; unit: string; displayFormats: { day: string; }; min: string; max: string; }; }' is not assignable to type '_DeepPartialObject<{ type: "timeseries"; } & Omit<CartesianScaleOptions, "min" | "max"> & { min: string | number; max: string | number; suggestedMin: string | number; ... 5 more ...; ticks: { ...; }; }>'.
+            Types of property 'type' are incompatible.
+              Type 'string' is not assignable to type '"timeseries"'.
+src/components/ParametersReport.tsx(125,19): error TS2769: No overload matches this call.
+  Overload 1 of 2, '(props: RangePickerProps<Dayjs> & { dropdownClassName?: string | undefined; popupClassName?: string | undefined; }, context?: any): Component<RangePickerProps<Dayjs> & { ...; }, unknown, any> & CommonPickerMethods', gave the following error.
+    Type '(dates: [moment.Moment | null, moment.Moment | null], dateStrings: [string, string]) => void' is not assignable to type '(values: RangeValue<Dayjs>, formatString: [string, string]) => void'.
+      Types of parameters 'dates' and 'values' are incompatible.
+        Type 'RangeValue<Dayjs>' is not assignable to type '[Moment | null, Moment | null]'.
+          Type 'null' is not assignable to type '[Moment | null, Moment | null]'.
+  Overload 2 of 2, '(props: RangePickerProps<Dayjs> & { dropdownClassName?: string | undefined; popupClassName?: string | undefined; }, context?: any): Component<RangePickerProps<Dayjs> & { ...; }, unknown, any>', gave the following error.
+    Type '(dates: [moment.Moment | null, moment.Moment | null], dateStrings: [string, string]) => void' is not assignable to type '(values: RangeValue<Dayjs>, formatString: [string, string]) => void'.
+src/components/TableForm.tsx(106,10): error TS2739: Type '{}' is missing the following properties from type 'TableProps': data, selectedStations
+src/components/testDBConnections.tsx(1,1): error TS1208: 'testDBConnections.tsx' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.
+src/helpers/datos.ts(93,7): error TS2322: Type '{ value: number | undefined; sourceId: string | undefined; dateTime: string; } | null' is not assignable to type 'DatosTabla2 | null'.
+  Type '{ value: number | undefined; sourceId: string | undefined; dateTime: string; }' is not assignable to type 'DatosTabla2'.
+    Types of property 'value' are incompatible.
+      Type 'number | undefined' is not assignable to type 'number'.
+        Type 'undefined' is not assignable to type 'number'.
+src/pages/Form.tsx(69,68): error TS7053: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'CsvData'.
+  No index signature with a parameter of type 'string' was found on type 'CsvData'.
+src/pages/Report.tsx(37,15): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ "645e79a1ac39284b585fb464": string; "645e79a6ac39284b585fb465": string; "645e9a7bac39284b585fb469": string; "645e9a8eac39284b585fb46a": string; "645e9a93ac39284b585fb46b": string; "645e9a98ac39284b585fb46c": string; }'.
+src/pages/Report.tsx(118,29): error TS2322: Type '{ handleParameters: (fechas: string[], estacion: string[]) => Promise<void>; }' is not assignable to type 'IntrinsicAttributes'.
+  Property 'handleParameters' does not exist on type 'IntrinsicAttributes'.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

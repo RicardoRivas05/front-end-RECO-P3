@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PrinterOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button, Col, Result, Row, Space, Typography } from 'antd';
 import { GraphicReport, TableReport, ParametersReport } from '../components';
-import { getDatos } from '../helpers';
+import { getDatos, getMinValueByStation } from '../helpers';
 import { getMaxValueByStation } from '../helpers';
 import dayjs from 'dayjs';
 import ExcelJS from 'exceljs';
@@ -13,6 +13,7 @@ import ReactLoading from 'react-loading';
 import LineChart from '../components/LineChart';
 import moment from 'moment';
 import Consulta, {DatosTabla} from '../components/Consulta';
+import TableVMinHist, { DatosTabla2 } from '../components/ConsultaValorBajo';
 
 
 const { Title } = Typography;
@@ -46,6 +47,7 @@ export const Report: React.FC = () => {
   const [data, setData] = useState<any[]>([]);
   const [selectedStations, setSelectedStations] = useState<any[]>([]);
   const [consultaData, setConsultaData] = useState<DatosTabla[]>([]);
+  const [consultaVMin, setconsultaVMin] = useState<DatosTabla2[]>([]);
 
 
 
@@ -70,6 +72,10 @@ export const Report: React.FC = () => {
     const maxValueData = await getMaxValueByStation(estacion); // Pasar estacion como un array
 
     setConsultaData(maxValueData);
+
+    //Obtener el valor minima para la estacion seleccionada
+    const minValueData = await getMinValueByStation(estacion);
+    setconsultaVMin(minValueData);
   } catch (error) {
     console.error('Error al obtener los datos: ', error);
   } finally {
@@ -151,6 +157,9 @@ export const Report: React.FC = () => {
                   <Consulta datos={consultaData}/>
                 </div>
                 <br />
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <TableVMinHist datos={consultaVMin}/>
+                </div>
                 <br />
                 <TableReport data={data} />
               </div>
