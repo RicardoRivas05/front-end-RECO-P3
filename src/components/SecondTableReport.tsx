@@ -41,21 +41,29 @@ const TableVMin: React.FC<TableProps> = ({ data, selectedStations }) => {
     setMinFech(minFech);
   }, [data, selectedStations]);
 
+
   const getMinValues = () => {
-    const minValues: { [key: string]: number } = {};
-    selectedStations.forEach((stationId) => {
-      const stationData = data.filter((item) => item.sourceId === stationId);
-      const stationMin = Math.min(...stationData.map((item) => item.value)); // Usar Math.min en lugar de Math.max
-      minValues[stationId] = stationMin;
-    });
-    return minValues;
-  };
+  const minValues: { [key: string]: number } = {};
+  selectedStations.forEach((stationId) => {
+    const stationData = data.filter((item) => item.sourceId === stationId);
+    const filteredData = stationData.filter((item) => item.value !== 0); // Excluye valores iguales a cero
+    const stationMin = Math.min(...filteredData.map((item) => item.value));
+    minValues[stationId] = stationMin;
+  });
+  return minValues;
+};
+
 
   const minValues = getMinValues();
 
   const formatDate = (dateTime: string) => {
     return dayjs(dateTime).format('YYYY-MM-DD HH:mm');
   };
+
+  const formatValue = (value: number) => {
+    return Number.isInteger(value) ? value.toString() : value.toFixed(2);
+  };
+  
 
   return (
     <table style={{ borderCollapse: 'collapse', marginBottom: '20px', marginLeft: '5px' }}>
@@ -70,7 +78,7 @@ const TableVMin: React.FC<TableProps> = ({ data, selectedStations }) => {
         {Object.keys(minValues).map((sourceId) => (
           <tr key={sourceId}>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{idNames[sourceId]}</td>
-            <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{minValues[sourceId]}</td>
+            <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{formatValue(minValues[sourceId])}</td>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{formatDate(minFech[sourceId])}</td>
           </tr>
         ))}

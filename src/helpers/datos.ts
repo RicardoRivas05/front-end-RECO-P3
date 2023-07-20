@@ -24,8 +24,10 @@ export const getDatos = async (sourceId:string[],dateTime:string[]) =>{
                     }
                 }`
             );
+            
     return data;
 }
+
 
 export const getMaxValueByStation = async (stationIds: string[]): Promise<DatosTabla[]> => {
     try {
@@ -62,16 +64,21 @@ export const getMaxValueByStation = async (stationIds: string[]): Promise<DatosT
     }
   };
   
+
+
   export const getMinValueByStation = async (stationIds: string[]): Promise<DatosTabla2[]> => {
     try {
       const promises = stationIds.map(async (stationId) => {
         const data = await DatosControllerService.datosControllerFind({
           where: {
-            sourceId: stationId
+            sourceId: stationId,
+            value: { neq: 0 } // Excluir registros con valor igual a cero
           },
-          order: 'value ASC', // Ordenar por valor mínimo y fecha descendente
+          order: 'value ASC',
           limit: 1
         });
+
+        
   
         if (data.length > 0) {
           const minValue = data[0].value;
@@ -98,12 +105,6 @@ export const getMaxValueByStation = async (stationIds: string[]): Promise<DatosT
       return [];
     }
   };
-  
-    
-  
-  
-  
-
 
 export const postDatos = async(data:any[]) =>{
 

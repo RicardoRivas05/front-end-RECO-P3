@@ -11,6 +11,7 @@ interface CsvData {
   "S4 WIND SPEED SCALED": number;
   "S5 WIND SPEED SCALED": number;
   "S6 WIND SPEED SCALED": number;
+  [key: string]: string | number;
 }
 
 export const Form = () => {

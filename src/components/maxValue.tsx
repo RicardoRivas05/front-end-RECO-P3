@@ -57,6 +57,11 @@ const TableVMax: React.FC<TableProps> = ({ data, selectedStations }) => {
     return dayjs(dateTime).format('YYYY-MM-DD HH:mm');
   };
 
+  const formatValue = (value: number) => {
+    return Number.isInteger(value) ? value.toString() : value.toFixed(2);
+  };
+  
+
 
   return (
     <table style={{ borderCollapse: 'collapse', marginBottom: '20px', marginLeft: '5px' }}>
@@ -71,7 +76,7 @@ const TableVMax: React.FC<TableProps> = ({ data, selectedStations }) => {
         {selectedStations.map((sourceId) => (
           <tr key={sourceId}>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{idNames[sourceId]}</td>
-            <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{maxValues[sourceId]}</td>
+            <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{formatValue(maxValues[sourceId])}</td>
             <td style={{ padding: '8px', textAlign: 'left', borderBottom: '1px solid #ddd' }}>{formatDate(maxFech[sourceId])}</td>
           </tr>
         ))}

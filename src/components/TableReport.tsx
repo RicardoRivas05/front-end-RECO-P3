@@ -62,6 +62,10 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
 
   const paginatedData = sortedData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
+  const formatValue = (value: number) => {
+    return Number.isInteger(value) ? value.toString() : value.toFixed(2);
+  };
+
   const columns: ColumnsType<TableItem> = [
     {
       title: 'Fecha',
@@ -76,6 +80,7 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
     {
       title: 'Velocidad (mi/h)',
       dataIndex: 'value',
+      render: (value) => formatValue(value),
     },
   ];
 
@@ -102,7 +107,7 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
   );
 };
 
-//*********************************************** */
+
 // import React, { useEffect, useState, useMemo } from 'react';
 // import { Table, Spin } from 'antd';
 // import { ColumnsType } from 'antd/es/table';
@@ -119,7 +124,6 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
 // interface TableProps {
 //   data: TableItem[];
 // }
-
 // export const TableReport: React.FC<TableProps> = ({ data }) => {
 //   const [idNames, setIdNames] = useState<{ [key: string]: string }>({});
 //   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -144,14 +148,27 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
 //     };
 //   }, []);
 
+//   // Filtrar los datos para eliminar duplicados
+//   const filteredData = useMemo(() => {
+//     const uniqueCombos = new Set<string>();
+//     return data.filter((item) => {
+//       const combo = `${item.sourceId}-${formatDate(item.dateTime)}`;
+//       if (!uniqueCombos.has(combo)) {
+//         uniqueCombos.add(combo);
+//         return true;
+//       }
+//       return false;
+//     });
+//   }, [data]);
+
 //   // Ordenar los datos por fecha y hora de forma ascendente
 //   const sortedData = useMemo(() => {
-//     return data.sort((a, b) => {
+//     return filteredData.sort((a, b) => {
 //       const dateA = new Date(a.dateTime).getTime();
 //       const dateB = new Date(b.dateTime).getTime();
 //       return dateA - dateB;
 //     });
-//   }, [data]);
+//   }, [filteredData]);
 
 //   const paginatedData = sortedData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 

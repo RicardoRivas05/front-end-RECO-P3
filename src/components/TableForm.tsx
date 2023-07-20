@@ -2,7 +2,6 @@ import React from 'react';
 import { Table, Divider } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Col, Row } from 'antd';
-import SecondTableReport from '../components/SecondTableReport';
 
 interface Table1 {
   key: React.Key;
@@ -103,7 +102,6 @@ export const TableForm: React.FC = () => (
     </Row>
     <Row>
       <Col span={24}>
-        <SecondTableReport></SecondTableReport>
       </Col>
     </Row>
   </>

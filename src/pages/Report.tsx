@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PrinterOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button, Col, Result, Row, Space, Typography } from 'antd';
-import { GraphicReport, TableReport, ParametersReport } from '../components';
+import { TableReport, ParametersReport } from '../components';
 import { getDatos, getMinValueByStation } from '../helpers';
 import { getMaxValueByStation } from '../helpers';
 import dayjs from 'dayjs';
@@ -15,7 +15,6 @@ import moment from 'moment';
 import Consulta, {DatosTabla} from '../components/Consulta';
 import TableVMinHist, { DatosTabla2 } from '../components/ConsultaValorBajo';
 
-
 const { Title } = Typography;
 
 const formatDate = (dateTime: string) => {
@@ -23,7 +22,7 @@ const formatDate = (dateTime: string) => {
   return date.format('YYYY-MM-DD HH:mm:ss');
 };
 
-const stationsNames = {
+const stationsNames:{[key:string]: string} = {
   "645e79a1ac39284b585fb464": "S1 WIND SPEED SCALED",
   "645e79a6ac39284b585fb465": "S2 WIND SPEED SCALED",
   "645e9a7bac39284b585fb469": "S3 WIND SPEED SCALED",
@@ -59,6 +58,8 @@ export const Report: React.FC = () => {
 
     const startDateTime = moment(fechas[0]).startOf('day').format('YYYY-MM-DD HH:mm');
     const endDateTime = moment(fechas[1]).endOf('day').format('YYYY-MM-DD HH:mm');
+
+    //console.log(startDateTime, endDateTime)
 
     // Realizar el filtrado de los datos dentro del rango de fechas seleccionado
     const filteredData = await getDatos(estacion, [startDateTime, endDateTime]);
