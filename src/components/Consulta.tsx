@@ -26,9 +26,11 @@ const Consulta = ({ datos }: any) => {
       setIdNames(idNamesResponse);
     }, []);
 
-    const formatValue = (value: number) => {
+    const formatValue = (value: number) => {      
       return Number.isInteger(value) ? value.toString() : value.toFixed(2);
     };
+
+    
     
   
     return (

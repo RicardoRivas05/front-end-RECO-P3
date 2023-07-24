@@ -14,7 +14,7 @@ export const getDatos = async (sourceId:string[],dateTime:string[]) =>{
                                 "sourceId": {
                                     "inq": ${JSON.stringify(sourceId)}
                                 }
-                            },                            
+                            },                     
                             {
                                 "dateTime": {
                                     "between": ${JSON.stringify(dateTime)}
@@ -34,10 +34,11 @@ export const getMaxValueByStation = async (stationIds: string[]): Promise<DatosT
       const promises = stationIds.map(async (stationId) => {
         const data = await DatosControllerService.datosControllerFind({
           where: {
-            sourceId: stationId
+            sourceId: stationId,
+            value: {lt : 75}
           },
           order: 'value DESC',
-          limit: 1
+          limit: 1,
         });
   
         if (data.length > 0) {

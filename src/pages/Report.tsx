@@ -67,7 +67,12 @@ export const Report: React.FC = () => {
     // Ordenar los datos por fecha ascendente
     const sortedData = filteredData.sort((a, b) => moment(a.dateTime).diff(moment(b.dateTime)));
 
-    setData(sortedData);
+    //Validacion para data Inexistente
+    const validateData = sortedData.filter((item) => item.value !== undefined && item.value<=75);
+
+
+     setData(validateData); //Con el filtro extra aplicado
+    // setData(sortedData); //Con la Data erronea
 
      // Obtener el valor máximo para la estación seleccionada
     const maxValueData = await getMaxValueByStation(estacion); // Pasar estacion como un array
