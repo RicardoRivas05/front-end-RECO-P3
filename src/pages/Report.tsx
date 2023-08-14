@@ -47,6 +47,9 @@ export const Report: React.FC = () => {
   const [selectedStations, setSelectedStations] = useState<any[]>([]);
   const [consultaData, setConsultaData] = useState<DatosTabla[]>([]);
   const [consultaVMin, setconsultaVMin] = useState<DatosTabla2[]>([]);
+  const [startDateTime, setStartDateTime] = useState<string>('');
+  const [endDateTime, setEndDateTime] = useState<string>('');
+ 
 
 
 
@@ -56,13 +59,17 @@ export const Report: React.FC = () => {
     setData([]);
     setSelectedStations(estacion);
 
-    const startDateTime = moment(fechas[0]).startOf('day').format('YYYY-MM-DD HH:mm');
-    const endDateTime = moment(fechas[1]).endOf('day').format('YYYY-MM-DD HH:mm');
+    const fechaInicial = moment(fechas[0]).startOf('day').format('YYYY-MM-DD HH:mm');
+    const fechaFinal = moment(fechas[1]).endOf('day').format('YYYY-MM-DD HH:mm');
+
+    setStartDateTime(fechaInicial);
+    setEndDateTime(fechaFinal)
+
 
     //console.log(startDateTime, endDateTime)
 
     // Realizar el filtrado de los datos dentro del rango de fechas seleccionado
-    const filteredData = await getDatos(estacion, [startDateTime, endDateTime]);
+    const filteredData = await getDatos(estacion, [fechaInicial, fechaFinal]);
 
     // Ordenar los datos por fecha ascendente
     const sortedData = filteredData.sort((a, b) => moment(a.dateTime).diff(moment(b.dateTime)));
@@ -88,6 +95,7 @@ export const Report: React.FC = () => {
     setIsLoading(false);
   }
 };
+
 
 
   const exportToExcel = async (data: any[], sheetName: string) => {
@@ -146,8 +154,7 @@ export const Report: React.FC = () => {
               <div className="print">
                 <Title style={{ textAlign: 'center', fontWeight: 'bold', color: 'cornflowerblue', fontFamily: 'Arial' }}>
                   Reporte de Estaciones
-                </Title>
-                
+                </Title>                
                 <br />
                 <br />
                 <LineChart data={data} selectedStations={selectedStations}/>
@@ -159,7 +166,7 @@ export const Report: React.FC = () => {
                 </div>
                 <br />
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <Promedio data={data} />                  
+                  <Promedio data={data} startDateTime={startDateTime} endDateTime={endDateTime}/>                  
                   <Consulta datos={consultaData}/>
                 </div>
                 <br />

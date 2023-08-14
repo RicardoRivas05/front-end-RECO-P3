@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 
 type Data = {
@@ -7,10 +8,14 @@ type Data = {
 
 type Props = {
     data:Data[];
+    startDateTime:string;
+    endDateTime:string;
+
 }
 
-const Promedio: React.FC<Props> = ({data}) => {
+const Promedio: React.FC<Props> = ({data, startDateTime, endDateTime}) => {
     const [idNames, setIdNames] = useState<{[key:string]: string}>({});
+    
 
     useEffect(() => {
 
@@ -34,7 +39,6 @@ const Promedio: React.FC<Props> = ({data}) => {
         return average.toFixed(2);
     }
 
-
   return (
     <div>
         <table style={{borderCollapse:'collapse', marginBottom:'20px', marginLeft:'5px'}}>
@@ -42,6 +46,7 @@ const Promedio: React.FC<Props> = ({data}) => {
                 <tr>
                     <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Estación</th>
                     <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Promedio (mi/h)</th>
+                    <th style={{padding:'8px', textAlign:'left', borderBottom:'1px solud #ddd', backgroundColor:'#f2f2f2'}}>Rango de Tiempo</th>
                 </tr>
 
             </thead>
@@ -50,6 +55,7 @@ const Promedio: React.FC<Props> = ({data}) => {
                 <tr key={sourceId}>
                     <td style={{padding:'8px', textAlign:'left', borderBottom:'1px solid #ddd'}}>{idNames[sourceId]}</td>
                     <td style={{padding:'8px', textAlign:'left', borderBottom:'1px solid #ddd'}}>{calcularPromedio(sourceId)}</td>
+                    <td style={{padding:'8px', textAlign:'left', borderBottom:'1px solid #ddd'}}>{startDateTime + " - " + endDateTime}</td>
                 </tr>
                 ))}                
             </tbody>
@@ -59,3 +65,7 @@ const Promedio: React.FC<Props> = ({data}) => {
 }
 
 export default Promedio;
+function async() {
+    throw new Error('Function not implemented.');
+}
+
