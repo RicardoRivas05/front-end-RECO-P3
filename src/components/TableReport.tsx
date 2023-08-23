@@ -19,6 +19,7 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const pageSize = 10; // Número de registros por página
 
+
   useEffect(() => {
     const idNamesResponse: { [key: string]: string } = {
       "645e79a1ac39284b585fb464": "S1 WIND SPEED SCALED",
@@ -51,6 +52,8 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
     });
   }, [data]);
 
+
+
   // Ordenar los datos por fecha y hora de forma ascendente
   const sortedData = useMemo(() => {
     return filteredData.sort((a, b) => {
@@ -59,6 +62,12 @@ export const TableReport: React.FC<TableProps> = ({ data }) => {
       return dateA - dateB;
     });
   }, [filteredData]);
+
+  const dataEliminada = data.filter(i=> !filteredData.includes(i))
+
+  console.log("Data: ",data.map(i=>i.dateTime), " " ,data.map(i=>i.value))
+console.log("Informacion Eliminada: ", dataEliminada)
+  console.log("SortedData: ", sortedData.map(i=>i.dateTime))
 
   const paginatedData = sortedData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 

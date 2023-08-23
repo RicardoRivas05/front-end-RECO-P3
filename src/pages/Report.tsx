@@ -21,7 +21,6 @@ const formatDate = (dateTime: string) => {
   const date = dayjs(dateTime);
   return date.format('YYYY-MM-DD HH:mm:ss');
 };
-
 const stationsNames:{[key:string]: string} = {
   "645e79a1ac39284b585fb464": "S1 WIND SPEED SCALED",
   "645e79a6ac39284b585fb465": "S2 WIND SPEED SCALED",
@@ -124,6 +123,8 @@ export const Report: React.FC = () => {
     downloadLink.click();
     URL.revokeObjectURL(downloadLink.href);
   };
+
+  console.log("Data: ", data)
 
   return (
     <>

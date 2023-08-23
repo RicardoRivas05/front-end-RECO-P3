@@ -107,30 +107,64 @@ export const getMaxValueByStation = async (stationIds: string[]): Promise<DatosT
     }
   };
 
-export const postDatos = async(data:any[]) =>{
-
+  //Insertar los datos por Lote
+  export const postDatosBatch = async (data:any[], batchSize:number)=>{
     if(!Array.isArray(data)){
-        console.error('Error: data is nor an array');
-        return;
+      console.error('Error: data is not an array')
+      return;
     }
 
-    const newData: NewDatos[] = data.map((item) => {
-        return {
-            dateTime: item.dateTime,
-            sourceId: item.sourceId,
-            quantityId: item.quantityId,
-            value: item.value,
+    const batches = [];
+    console.log("Data tamaño: ",  data.length)
+    for(let i=0; i<data.length;i+=batchSize){
+      batches.push(data.slice(i, i + batchSize));
+    }
+
+    for(const batch of batches){
+      const newData: NewDatos[] = batch.map((item)=>{
+        return{
+          dateTime:item.dateTime,
+          sourceId:item.sourceId,
+          quantityId:item.quantityId,
+          value: item.value
         };
-    });
+      });
 
-    message.loading({content: 'Loading data!', key:'loading', duration: 0}) //Esto mostrara el Mensaje de carga
+      try{
+        await Promise.all(newData.map((item)=> DatosControllerService.datosControllerCreate(item)));
+        console.log(`Batch of ${newData.length} records inserted succefully.`);
+      }catch(error){
+        console.error('Error inserting batch: ', error)
+      }
 
-    try {
-        await Promise.all(newData.map((item) => DatosControllerService.datosControllerCreate(item)));
-
-        message.success({content: 'Data loaded!', key:'loading'});
-    } catch (error) {
-        console.error('Error al insertar los datos: ', error);
-        message.error({content: 'Error loading data!', key:'loading'})      
     }
-};
+
+  }
+
+// export const postDatos = async(data:any[]) =>{
+
+//     if(!Array.isArray(data)){
+//         console.error('Error: data is nor an array');
+//         return;
+//     }
+
+//     const newData: NewDatos[] = data.map((item) => {
+//         return {
+//             dateTime: item.dateTime,
+//             sourceId: item.sourceId,
+//             quantityId: item.quantityId,
+//             value: item.value,
+//         };
+//     });
+
+//     message.loading({content: 'Loading data!', key:'loading', duration: 0}) //Esto mostrara el Mensaje de carga
+
+//     try {
+//         await Promise.all(newData.map((item) => DatosControllerService.datosControllerCreate(item)));
+
+//         message.success({content: 'Data loaded!', key:'loading'});
+//     } catch (error) {
+//         console.error('Error al insertar los datos: ', error);
+//         message.error({content: 'Error loading data!', key:'loading'})      
+//     }
+// };
