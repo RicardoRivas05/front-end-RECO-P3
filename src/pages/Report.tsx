@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { PrinterOutlined, DownloadOutlined } from '@ant-design/icons';
 import { Button, Col, Result, Row, Space, Typography } from 'antd';
 import { TableReport, ParametersReport } from '../components';
@@ -95,10 +95,32 @@ export const Report: React.FC = () => {
   }
 };
 
+  // Filtrar los datos para eliminar duplicados
+  const filteredData = useMemo(() => {
+    const uniqueCombos = new Set<string>();
+    return data.filter((item) => {
+      const combo = `${item.sourceId}-${formatDate(item.dateTime)}`;
+      if (!uniqueCombos.has(combo)) {
+        uniqueCombos.add(combo);
+        return true;
+      }
+      return false;
+    });
+  }, [data]);
+
+
+  // Ordenar los datos por fecha y hora de forma ascendente
+  const sortedData = useMemo(() => {
+    return filteredData.sort((a, b) => {
+      const dateA = new Date(a.dateTime).getTime();
+      const dateB = new Date(b.dateTime).getTime();
+      return dateA - dateB;
+    });
+  }, [filteredData]);
 
 
   const exportToExcel = async (data: any[], sheetName: string) => {
-    const transformedData = transformDataForExport(data);
+    const transformedData = transformDataForExport(sortedData);
 
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(sheetName);
@@ -113,6 +135,12 @@ export const Report: React.FC = () => {
       worksheet.addRow(item);
     });
 
+    const dataEliminada = data.filter(i=> !filteredData.includes(i))
+
+    console.log("Data: ",data.map(i=>i.dateTime), " " ,data.map(i=>i.value))
+    console.log("Informacion Eliminada: ", dataEliminada)
+    console.log("SortedData: ", sortedData.map(i=>i.dateTime))
+
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     const filename = 'Reporte.xlsx';
@@ -124,7 +152,7 @@ export const Report: React.FC = () => {
     URL.revokeObjectURL(downloadLink.href);
   };
 
-  console.log("Data: ", data)
+  console.log("Data: ", sortedData)
 
   return (
     <>
@@ -146,7 +174,7 @@ export const Report: React.FC = () => {
                   type="primary"
                   shape="round"
                   style={{ backgroundColor: '#73d13d', borderColor: '#73d13d' }}
-                  onClick={() => exportToExcel(data, 'Reporte')}
+                  onClick={() => exportToExcel(sortedData, 'Reporte')}
                 >
                   <DownloadOutlined /> Exportar
                 </Button>
